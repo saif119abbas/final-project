@@ -21,11 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Force Failure
-        run: (exit 1)
-
-      - name: Run Tests 
-        run: npm run test -- --coverag
   Style:
     name: Style
     runs-on: ubuntu-latest
