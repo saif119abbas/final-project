@@ -1,8 +1,8 @@
 import { pgEnum } from "drizzle-orm/pg-core";
-enum JobStatus{
-    PENDING="PENDING",
-    SUCCESS="SUCCESS",
-    FAILED="FAILED",
+enum JobStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
 }
 const jobStatusObj: Record<JobStatus, JobStatus> = {
   [JobStatus.PENDING]: JobStatus.PENDING,
@@ -10,7 +10,4 @@ const jobStatusObj: Record<JobStatus, JobStatus> = {
   [JobStatus.FAILED]: JobStatus.FAILED,
 };
 const jobStatusEnum = pgEnum("job_status", jobStatusObj);
-export {
-    JobStatus,
-    jobStatusEnum
-}
+export { JobStatus, jobStatusEnum };
