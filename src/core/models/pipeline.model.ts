@@ -1,9 +1,11 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import  ActionType  from "@core/enum/actionType.enum";
 
-export const pipelines = pgTable("pipelines", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: text("name").notNull(),
-  description: text("description"),
-  created_at: timestamp("created_at").defaultNow(),
-});
-export type Pipeline = typeof pipelines.$inferInsert;
+export  default interface Pipeline {
+  id: string
+  name: string
+  source_path: string
+  sourcePath: string
+  actionType: ActionType
+  actionConfig: ActionType
+  createdAt: Date
+}
