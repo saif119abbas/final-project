@@ -9,7 +9,7 @@ export default function verfiyToken(
   let verifyResult: string | JwtPayload;
   try {
     verifyResult = jwt.verify(token, secret);
-  } catch (err) {
+  } catch {
     return null;
   }
 
@@ -22,8 +22,8 @@ export default function verfiyToken(
     return null;
   }
   const payload: TokenPayload = {
-    id: (verifyResult as any).id,
-    username: (verifyResult as any).username,
+    id: verifyResult.id,
+    username:verifyResult.username,
   };
 
   return payload;
