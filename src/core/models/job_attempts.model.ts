@@ -1,6 +1,6 @@
 import JobStatus  from "@core/enum/jobStatus.enum";
-export default interface JonAttempts   {
-  id: string
+ type JonAttempts=   {
+  id?: string;
   jobId: string,
   subscriberId: string,
   attemptNumber: number,
@@ -9,3 +9,4 @@ export default interface JonAttempts   {
   createdAt: Date,
   status:JobStatus,
 };
+export default JonAttempts

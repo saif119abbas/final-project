@@ -2,19 +2,20 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-    "@core/*": ["core/*"],
-    "@application/*": ["application/*"],
-    "@infrastructure/*": ["infrastructure/*"],
-    "@presentation/*": ["presentation/*"],
-    "@config/*": ["config/*"]
+      "@core/*": ["core/*"],
+      "@application/*": ["application/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@presentation/*": ["presentation/*"],
+      "@config/*": ["config/*"]
     },
-    
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES2020",
+    "module": "CommonJS",        // ← changed
+    "moduleResolution": "Node",
     "rootDir": "./src",
     "outDir": "./dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,  // ← add this for automapper
     "strict": true,
-    "moduleResolution": "Node",
     "esModuleInterop": true,
     "skipLibCheck": true
   },

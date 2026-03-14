@@ -1,0 +1,7 @@
+import { DrizzleQueryError } from "drizzle-orm/errors";
+export default function isDatabaseError(error) {
+    return (error instanceof DrizzleQueryError &&
+        typeof error.cause === "object" &&
+        error.cause !== null &&
+        "code" in error.cause);
+}
