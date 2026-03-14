@@ -1,7 +1,7 @@
 type Subscriber = {
   id?: string;
-  pipelineId: string,
-  url: string,
-  status:string,
+  pipelineId: string;
+  url: string;
+  status: string;
 };
-export default Subscriber
+export default Subscriber;

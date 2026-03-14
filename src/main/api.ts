@@ -14,12 +14,9 @@ app.get("/health", (_req, res) => {
 });
 
 const port = Number(process.env.PORT ?? "3000");
-new Router(app)
-registerMappers()
+new Router(app);
+registerMappers();
 app.use(errorHandler);
 app.listen(port, () => {
   console.log(`API listening on :${port}`);
 });
-
-
-

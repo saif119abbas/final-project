@@ -1,5 +1,5 @@
 interface TokenPair {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 export default TokenPair;

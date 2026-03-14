@@ -6,9 +6,9 @@ import IRepository from "@core/repositories/repository";
 
 type WithId = { id: PgColumn };
 
-export default class Repository<TTable extends AnyPgTable & WithId>
-  implements IRepository<InferSelectModel<TTable>, InferInsertModel<TTable>>
-{
+export default class Repository<
+  TTable extends AnyPgTable & WithId,
+> implements IRepository<InferSelectModel<TTable>, InferInsertModel<TTable>> {
   private table: TTable;
 
   constructor(table: TTable) {
@@ -16,7 +16,7 @@ export default class Repository<TTable extends AnyPgTable & WithId>
   }
 
   async create(
-    entity: InferInsertModel<TTable>
+    entity: InferInsertModel<TTable>,
   ): Promise<InferSelectModel<TTable>> {
     const [result] = await db.insert(this.table).values(entity).returning();
     return result as InferSelectModel<TTable>;
@@ -32,7 +32,10 @@ export default class Repository<TTable extends AnyPgTable & WithId>
   }
 
   // ✅ Matches interface signature — fixes the findAll mismatch
-  async findAll(page: number, limit: number): Promise<InferSelectModel<TTable>[]> {
+  async findAll(
+    page: number,
+    limit: number,
+  ): Promise<InferSelectModel<TTable>[]> {
     const offset = (page - 1) * limit;
     const results = await db
       .select()
@@ -44,7 +47,7 @@ export default class Repository<TTable extends AnyPgTable & WithId>
 
   async update(
     id: string,
-    entity: Partial<InferInsertModel<TTable>>
+    entity: Partial<InferInsertModel<TTable>>,
   ): Promise<InferSelectModel<TTable>> {
     const [result] = await db
       .update(this.table)

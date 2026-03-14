@@ -1,12 +1,12 @@
-import  JobStatus  from "@core/enum/jobStatus.enum"
+import JobStatus from "@core/enum/jobStatus.enum";
 
-type jobs=  {
+type jobs = {
   id?: string;
-  pipeline_id: string,
-  payload: string,
-  status:JobStatus,
-  createdAt: Date
-  updatedAt:Date,
-  scheduledFor:Date,
+  pipeline_id: string;
+  payload: string;
+  status: JobStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  scheduledFor: Date;
 };
-export default jobs
+export default jobs;

@@ -4,9 +4,7 @@ import { IUserRepository } from "@core/repositories/user";
 import IUseCase from "@core/shared/useCase";
 
 export default class FindUserByIdUseCase implements IUseCase<User> {
-  constructor(
-    private readonly userRepository: IUserRepository
-  ) {}
+  constructor(private readonly userRepository: IUserRepository) {}
 
   async call(userId: string): Promise<User> {
     const user: User | null = await this.userRepository.findById(userId);

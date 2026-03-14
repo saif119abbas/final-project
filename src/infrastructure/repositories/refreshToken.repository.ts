@@ -13,24 +13,22 @@ export default class RefreshTokenRepository
     super(refreshTokens);
   }
 
-
-
-async findByUserId(userId: string): Promise<RefreshToken | null> {
-  const [result] = await db
-    .select()
-    .from(refreshTokens)
-    .where(
-      and(
-        eq(refreshTokens.userId, userId),
-        isNull(refreshTokens.revokedAt),
-        gt(refreshTokens.expiresAt, new Date())
+  async findByUserId(userId: string): Promise<RefreshToken | null> {
+    const [result] = await db
+      .select()
+      .from(refreshTokens)
+      .where(
+        and(
+          eq(refreshTokens.userId, userId),
+          isNull(refreshTokens.revokedAt),
+          gt(refreshTokens.expiresAt, new Date()),
+        ),
       )
-    )
-    .orderBy(desc(refreshTokens.createdAt))
-    .limit(1);
+      .orderBy(desc(refreshTokens.createdAt))
+      .limit(1);
 
-  return result ?? null;
-}
+    return result ?? null;
+  }
 
   async revokedToken(token: string): Promise<boolean> {
     const result = await db
@@ -38,7 +36,9 @@ async findByUserId(userId: string): Promise<RefreshToken | null> {
       .set({
         revokedAt: new Date(),
       })
-      .where(and(eq(refreshTokens.token, token), isNull(refreshTokens.revokedAt)))
+      .where(
+        and(eq(refreshTokens.token, token), isNull(refreshTokens.revokedAt)),
+      )
       .returning({ id: refreshTokens.id });
 
     return result.length > 0;
@@ -50,7 +50,9 @@ async findByUserId(userId: string): Promise<RefreshToken | null> {
       .set({
         revokedAt: new Date(),
       })
-      .where(and(eq(refreshTokens.userId, userId), isNull(refreshTokens.revokedAt)))
+      .where(
+        and(eq(refreshTokens.userId, userId), isNull(refreshTokens.revokedAt)),
+      )
       .returning({ id: refreshTokens.id });
 
     return result.length > 0;

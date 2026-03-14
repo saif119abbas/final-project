@@ -1,18 +1,18 @@
 import { AutoMap } from "@automapper/classes";
-import  ActionType  from "@core/enum/actionType.enum";
+import ActionType from "@core/enum/actionType.enum";
 export default class Pipeline {
   @AutoMap()
   id!: string;
-   @AutoMap()
+  @AutoMap()
   name!: string;
-   @AutoMap()
+  @AutoMap()
   sourcePath!: string;
-   @AutoMap()
+  @AutoMap()
   actionType!: ActionType;
-   @AutoMap()
+  @AutoMap()
   actionConfig!: ActionType;
-   @AutoMap()
+  @AutoMap()
   createdAt!: Date | null;
-   @AutoMap()
+  @AutoMap()
   updatedAt!: Date | null;
 }

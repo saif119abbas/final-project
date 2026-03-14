@@ -20,37 +20,77 @@ import FindUserByIdUseCase from "@application/user/usecases/findUserById.usecase
 export default class UserRouter {
   private readonly controller: UserController;
   private readonly authMiddleWare: AuthenticationMiddleware;
-  private readonly router:Router
+  private readonly router: Router;
   constructor(private readonly app: Express) {
-    
-// ============================================================================
-// DEPENDENCY INJECTION SETUP
-// ============================================================================
+    // ============================================================================
+    // DEPENDENCY INJECTION SETUP
+    // ============================================================================
     const userRepository = new UserRepository();
     const refreshTokenRepository = new RefreshTokenRepository();
 
-// ============================================================================
-// USECASES
-// ============================================================================
-    const createUserUseCase = new CreateUserUseCase(userRepository,encryptPassword);
-    const loginUsecase=new LoginUseCase(userRepository,refreshTokenRepository,generateTokenPair,compare,setCookie)
-    const logoutUsecase=new LogoutUseCase(refreshTokenRepository,decodeToken,clearCookie)
-    const refreshTokenUsecase=new RefreshTokenUseCase(refreshTokenRepository,decodeToken,generateTokenPair,decodeToken,setCookie,clearCookie)
-    const findUserByIdUsecase=new FindUserByIdUseCase(userRepository)
-// ============================================================================
-// CONTROLLERS
-// ============================================================================
- this.authMiddleWare=new AuthenticationMiddleware(findUserByIdUsecase)
-    this.controller = new UserController(createUserUseCase,loginUsecase,logoutUsecase,refreshTokenUsecase);
+    // ============================================================================
+    // USECASES
+    // ============================================================================
+    const createUserUseCase = new CreateUserUseCase(
+      userRepository,
+      encryptPassword,
+    );
+    const loginUsecase = new LoginUseCase(
+      userRepository,
+      refreshTokenRepository,
+      generateTokenPair,
+      compare,
+      setCookie,
+    );
+    const logoutUsecase = new LogoutUseCase(
+      refreshTokenRepository,
+      decodeToken,
+      clearCookie,
+    );
+    const refreshTokenUsecase = new RefreshTokenUseCase(
+      refreshTokenRepository,
+      decodeToken,
+      generateTokenPair,
+      decodeToken,
+      setCookie,
+      clearCookie,
+    );
+    const findUserByIdUsecase = new FindUserByIdUseCase(userRepository);
+    // ============================================================================
+    // CONTROLLERS
+    // ============================================================================
+    this.authMiddleWare = new AuthenticationMiddleware(findUserByIdUsecase);
+    this.controller = new UserController(
+      createUserUseCase,
+      loginUsecase,
+      logoutUsecase,
+      refreshTokenUsecase,
+    );
     this.router = Router();
     this.registerEndpoints();
   }
 
   private registerEndpoints() {
     this.app.use("/api/users", this.router);
-    this.router.post("/",validate(UserRequestSchema), this.controller.createUser.bind(this.controller));
-    this.router.post("/login",validate(LoginSchema), this.controller.login.bind(this.controller));
-    this.router.post("/logout",this.authMiddleWare.verfiyRefreshToken(), this.controller.logout.bind(this.controller));
-    this.router.post("/refresh-token",this.authMiddleWare.verfiyRefreshToken(),this.controller.refreshToken.bind(this.controller));
+    this.router.post(
+      "/",
+      validate(UserRequestSchema),
+      this.controller.createUser.bind(this.controller),
+    );
+    this.router.post(
+      "/login",
+      validate(LoginSchema),
+      this.controller.login.bind(this.controller),
+    );
+    this.router.post(
+      "/logout",
+      this.authMiddleWare.verfiyRefreshToken(),
+      this.controller.logout.bind(this.controller),
+    );
+    this.router.post(
+      "/refresh-token",
+      this.authMiddleWare.verfiyRefreshToken(),
+      this.controller.refreshToken.bind(this.controller),
+    );
   }
 }

@@ -5,7 +5,7 @@ export default class RefreshTokenRequest {
   userId!: string;
 
   @AutoMap()
-  token! :string
+  token!: string;
 
   @AutoMap()
   revokedAt!: Date | null;
