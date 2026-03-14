@@ -5,7 +5,7 @@ import IError from "@core/interfaces/error";
 export default function errorHandler(
   err: Error,
   _req: Request,
-  res: Response
+  res: Response,
 ): void {
   const isCustomError = "httpStatus" in err;
 
