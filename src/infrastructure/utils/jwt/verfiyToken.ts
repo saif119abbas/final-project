@@ -23,7 +23,7 @@ export default function verfiyToken(
   }
   const payload: TokenPayload = {
     id: verifyResult.id,
-    username:verifyResult.username,
+    username: verifyResult.username,
   };
 
   return payload;
