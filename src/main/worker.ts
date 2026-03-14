@@ -4,7 +4,7 @@ async function main() {
   const conn = await amqp.connect(rabbitConnString);
 
   console.log("RabbitMQ connection successful");
-  const channel = await conn.createConfirmChannel();
+  //const channel = await conn.createConfirmChannel();
 
   process.on("SIGINT", async () => {
     console.log("Program is shutting down...");

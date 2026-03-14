@@ -15,8 +15,8 @@ export default function verifyToken(token: string): TokenPayload {
     throw new UnauthorizedError("Invalid token");
   }
   const payload: TokenPayload = {
-    id: (decoded as any).id,
-    username: (decoded as any).username,
+    id: decoded.id,
+    username: decoded.username,
   };
 
   return payload;

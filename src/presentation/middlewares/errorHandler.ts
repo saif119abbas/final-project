@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import IError from "@core/interfaces/error";
 
 export default function errorHandler(
   err: Error,
   _req: Request,
-  res: Response,
-  _next: NextFunction,
+  res: Response
 ): void {
   const isCustomError = "httpStatus" in err;
 
