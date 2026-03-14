@@ -15,4 +15,3 @@ const config: DBConfig = {
 };
 
 export default config;
-

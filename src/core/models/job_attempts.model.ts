@@ -1,12 +1,12 @@
-import JobStatus  from "@core/enum/jobStatus.enum";
- type JonAttempts=   {
+import JobStatus from "@core/enum/jobStatus.enum";
+type JonAttempts = {
   id?: string;
-  jobId: string,
-  subscriberId: string,
-  attemptNumber: number,
-  responseCode: string,
-  responseBody: string,
-  createdAt: Date,
-  status:JobStatus,
+  jobId: string;
+  subscriberId: string;
+  attemptNumber: number;
+  responseCode: string;
+  responseBody: string;
+  createdAt: Date;
+  status: JobStatus;
 };
-export default JonAttempts
+export default JonAttempts;

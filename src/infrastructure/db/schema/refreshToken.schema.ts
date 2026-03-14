@@ -1,6 +1,5 @@
-
-import { pgTable, text, timestamp, uuid,varchar} from "drizzle-orm/pg-core";
-import {users} from "./users.schema"
+import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { users } from "./users.schema";
 export const refreshTokens = pgTable("refresh_tokens", {
   id: uuid("id").primaryKey().defaultRandom(),
   token: varchar("token").notNull().unique(),
@@ -11,5 +10,7 @@ export const refreshTokens = pgTable("refresh_tokens", {
     .$onUpdate(() => new Date()),
   revokedAt: timestamp("revoked_at"),
   expiresAt: timestamp("expires_at").notNull(),
-  userId:uuid("user_id").notNull() .references(() =>users.id, { onDelete: "cascade" }),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
 });

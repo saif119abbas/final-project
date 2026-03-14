@@ -6,7 +6,7 @@ export default class UserRequest {
 
   @AutoMap()
   username!: string;
-  
+
   @AutoMap()
   password!: string;
 }

@@ -1,5 +1,5 @@
 import { AutoMap } from "@automapper/classes";
-import  ActionType  from "@core/enum/actionType.enum";
+import ActionType from "@core/enum/actionType.enum";
 export default class PipelineRequest {
   @AutoMap()
   name!: string;

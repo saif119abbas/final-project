@@ -7,7 +7,7 @@ export const pipelines = pgTable("pipelines", {
   description: text("description"),
   sourcePath: text("source_path").notNull().unique(), // unique token for webhook URL
   actionType: actionTypeEnum("action_type").notNull(),
-  actionConfig: jsonb("action_config"),               // optional config (e.g., { "url": "https://..." })
+  actionConfig: jsonb("action_config"), // optional config (e.g., { "url": "https://..." })
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()

@@ -1,8 +1,7 @@
-
-enum JobStatus {  
+enum JobStatus {
   PENDING = "PENDING",
   SUCCESS = "SUCCESS",
   FAILED = "FAILED",
 }
 
-export default JobStatus
+export default JobStatus;

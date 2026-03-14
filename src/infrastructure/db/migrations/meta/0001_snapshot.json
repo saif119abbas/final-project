@@ -74,12 +74,8 @@
           "name": "job_attempts_job_id_jobs_id_fk",
           "tableFrom": "job_attempts",
           "tableTo": "jobs",
-          "columnsFrom": [
-            "job_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["job_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -87,12 +83,8 @@
           "name": "job_attempts_subscriber_id_subscribers_id_fk",
           "tableFrom": "job_attempts",
           "tableTo": "subscribers",
-          "columnsFrom": [
-            "subscriber_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subscriber_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -173,12 +165,8 @@
           "name": "jobs_pipeline_id_pipelines_id_fk",
           "tableFrom": "jobs",
           "tableTo": "pipelines",
-          "columnsFrom": [
-            "pipeline_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["pipeline_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -253,9 +241,7 @@
         "pipelines_source_path_unique": {
           "name": "pipelines_source_path_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "source_path"
-          ]
+          "columns": ["source_path"]
         }
       },
       "policies": {},
@@ -306,12 +292,8 @@
           "name": "subscribers_pipeline_id_pipelines_id_fk",
           "tableFrom": "subscribers",
           "tableTo": "pipelines",
-          "columnsFrom": [
-            "pipeline_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["pipeline_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -430,12 +412,8 @@
           "name": "refresh_tokens_user_id_users_id_fk",
           "tableFrom": "refresh_tokens",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -445,9 +423,7 @@
         "refresh_tokens_token_unique": {
           "name": "refresh_tokens_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -459,20 +435,12 @@
     "public.action_type": {
       "name": "action_type",
       "schema": "public",
-      "values": [
-        "UPPERCASE",
-        "ADD_TIMESTAMP",
-        "MAKE_API_CALL"
-      ]
+      "values": ["UPPERCASE", "ADD_TIMESTAMP", "MAKE_API_CALL"]
     },
     "public.job_status": {
       "name": "job_status",
       "schema": "public",
-      "values": [
-        "PENDING",
-        "SUCCESS",
-        "FAILED"
-      ]
+      "values": ["PENDING", "SUCCESS", "FAILED"]
     }
   },
   "schemas": {},

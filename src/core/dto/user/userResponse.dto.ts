@@ -9,5 +9,4 @@ export default class UserResponse {
 
   @AutoMap()
   username!: string;
-
 }
