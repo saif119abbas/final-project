@@ -1,7 +1,7 @@
 import  JobStatus  from "@core/enum/jobStatus.enum"
 
-export default interface jobs  {
-  id: string
+type jobs=  {
+  id?: string;
   pipeline_id: string,
   payload: string,
   status:JobStatus,
@@ -9,3 +9,4 @@ export default interface jobs  {
   updatedAt:Date,
   scheduledFor:Date,
 };
+export default jobs

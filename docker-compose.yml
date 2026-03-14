@@ -26,10 +26,13 @@ services:
     container_name: zapier_clone_migrate
     command: npx drizzle-kit migrate
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - ./src/infrastructure/db/migrations:/usr/src/app/src/infrastructure/db/migrations
+
 
 
   rabbitmq:
@@ -50,6 +53,8 @@ services:
       retries: 5
 
   api:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -58,7 +63,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone?sslmode=disable
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone?sslmode=disable
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
       PORT: 3000
     depends_on:
@@ -76,7 +81,7 @@ services:
     container_name: zapier_clone_worker
     command: npm run start:worker   # or node dist/worker.js
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     depends_on:
       postgres:

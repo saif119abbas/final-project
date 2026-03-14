@@ -7,8 +7,9 @@ CREATE TABLE "job_attempts" (
 	"attempt_number" serial NOT NULL,
 	"response_code" text,
 	"response_body" text,
+	"status" "job_status" DEFAULT 'PENDING',
 	"created_at" timestamp DEFAULT now(),
-	"status" "job_status" DEFAULT 'PENDING'
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "jobs" (
@@ -20,7 +21,7 @@ CREATE TABLE "jobs" (
 	"error" text,
 	"scheduled_for" timestamp,
 	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now()
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "pipelines" (
@@ -31,6 +32,7 @@ CREATE TABLE "pipelines" (
 	"action_type" "action_type" NOT NULL,
 	"action_config" jsonb,
 	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "pipelines_source_path_unique" UNIQUE("source_path")
 );
 --> statement-breakpoint
@@ -38,7 +40,17 @@ CREATE TABLE "subscribers" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"pipeline_id" uuid,
 	"url" text NOT NULL,
-	"created_at" timestamp DEFAULT now()
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "users" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"username" varchar(255) NOT NULL,
+	"password" varchar(255) NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "job_attempts" ADD CONSTRAINT "job_attempts_job_id_jobs_id_fk" FOREIGN KEY ("job_id") REFERENCES "public"."jobs"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

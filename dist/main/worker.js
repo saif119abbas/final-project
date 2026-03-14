@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 async function main() {
-    const rabbitConnString = "";
+    const rabbitConnString = process.env.RABBITMQ_URL;
     const conn = await amqp.connect(rabbitConnString);
     console.log("RabbitMQ connection successful");
     const channel = await conn.createConfirmChannel();
