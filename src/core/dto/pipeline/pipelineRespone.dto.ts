@@ -1,6 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 import ActionType from "@core/enum/actionType.enum";
-import { ActionConfig } from "./pipelineRequest.dto";
+import type { ActionConfig } from "@core/models/pipeline.model";
 
 export default class PipelineResponse {
   @AutoMap()

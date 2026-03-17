@@ -1,13 +1,7 @@
 import AckType from "@core/enum/ackType.enum";
-import ActionType from "@core/enum/actionType.enum";
 import { runAction } from "@application/shared/processors/pipelineAction";
+import JobMessage from "@core/dto/rabbitmq/jobMessaage";
 
-type JobMessage = {
-  jobId: string;
-  actionType: ActionType;
-  actionConfig: Record<string, unknown>;
-  payload: unknown;
-};
 
 export  default async function jobHandler(data: JobMessage): Promise<AckType> {
   try {

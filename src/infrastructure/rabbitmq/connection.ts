@@ -1,21 +1,18 @@
 import * as amqp from "amqplib";
-import type { Channel, Options } from "amqplib";
-
+import type { ConfirmChannel } from "amqplib";
+import rabbitmq from "@config/rabittmq.config"
 type AmqpConnection = Awaited<ReturnType<typeof amqp.connect>>;
-
 let connection: AmqpConnection | null = null;
-let channel: Channel | null = null;
+let channel: ConfirmChannel | null = null;
 
-export async function getRabbitChannel(): Promise<Channel> {
+export async function getRabbitChannel(): Promise<ConfirmChannel> {
   if (channel) return channel;
-
-  const rabbitUrl = process.env.RABBITMQ_URL;
+  const rabbitUrl = rabbitmq.url;
   if (!rabbitUrl) {
     throw new Error("RABBITMQ_URL is not set");
   }
-
   connection = await amqp.connect(rabbitUrl);
-  channel = await connection.createChannel();
+  channel = await connection.createConfirmChannel();
 
   const close = async () => {
     try {
