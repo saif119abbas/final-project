@@ -13,13 +13,13 @@ import express from "express";
 async function bootstrap() {
   // RabbitMQ setup — must run before any webhook can be ingested
   const connection = await amqp.connect(rabbitMqConfig.url);
-  const ch:ConfirmChannel=await connection.createConfirmChannel()
+  const ch: ConfirmChannel = await connection.createConfirmChannel();
   await declareAndBind(
     connection,
     Exchanges.JOBS,
     Queues.PROCESSING,
     RoutingKeys.JOB_CREATED,
-    SimpleQueueType.Durable
+    SimpleQueueType.Durable,
   );
   console.log("RabbitMQ exchange and queue ready");
 
@@ -31,7 +31,7 @@ async function bootstrap() {
   });
 
   const port = Number(process.env.PORT ?? "3000");
-  new Router(app,ch);
+  new Router(app, ch);
   registerMappers();
   app.use(errorHandler);
 

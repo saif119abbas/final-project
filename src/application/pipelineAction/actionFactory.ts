@@ -6,11 +6,8 @@ import TimestampAction from "./timestamp.action";
 import ApiCallAction from "./apiCall.action";
 
 export default class ActionFactory {
-
   static create(type: ActionType): PipelineAction {
-
     switch (type) {
-
       case ActionType.UPPERCASE:
         return new UppercaseAction();
 

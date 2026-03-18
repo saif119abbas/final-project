@@ -7,16 +7,18 @@ import JobMessage from "@core/dto/rabbitmq/jobMessaage";
 import AckType from "@core/enum/ackType.enum";
 import rabbitMqConfig from "@config/rabittmq.config";
 import SimpleQueueType from "@core/enum/simpleQueueType.enum";
+import JobRepository from "@infrastructure/repositories/jobs.repository";
 
 async function main() {
   const connection = await amqp.connect(rabbitMqConfig.url);
 
-  const [channel, queue] = await declareAndBind(  // ← this was missing
+  const [channel, queue] = await declareAndBind(
+    // ← this was missing
     connection,
     Exchanges.JOBS,
     Queues.PROCESSING,
     RoutingKeys.JOB_CREATED,
-    SimpleQueueType.Durable
+    SimpleQueueType.Durable,
   );
 
   await channel.prefetch(10);
@@ -27,7 +29,8 @@ async function main() {
       if (!msg) return;
       try {
         const jobMessage = JSON.parse(msg.content.toString()) as JobMessage;
-        const ack = await jobHandler(jobMessage);
+        const jobRepository = new JobRepository();
+        const ack = await jobHandler(jobMessage, jobRepository);
 
         if (ack === AckType.ACK) channel.ack(msg);
         else if (ack === AckType.NACK_REQUEUE) channel.nack(msg, false, true);
@@ -37,7 +40,7 @@ async function main() {
         channel.nack(msg, false, false);
       }
     },
-    { noAck: false }
+    { noAck: false },
   );
 
   console.log("Worker started, waiting for jobs...");

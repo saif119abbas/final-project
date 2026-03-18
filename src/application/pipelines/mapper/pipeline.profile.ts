@@ -11,7 +11,7 @@ export default function pipelineProfile(): void {
     Pipeline,
     forMember((dest) => dest.id, ignore()),
     forMember((dest) => dest.createdAt, ignore()),
-    forMember((dest) => dest.updatedAt, ignore())
+    forMember((dest) => dest.updatedAt, ignore()),
   );
   createMap(mapper, Pipeline, PipelineResponse);
 }

@@ -1,19 +1,17 @@
+import { Payload } from "@core/dto/jobs/jobRequest.dto";
 import PipelineAction from "@core/interfaces/actions/pipelineAction";
-import type { ActionConfig } from "@core/models/pipeline.model";
+type Timestamped<T> = T & { timestamp: string };
 
-export default class TimestampAction implements PipelineAction {
-
-  async execute(payload: unknown, _config: ActionConfig): Promise<unknown> {
-
-    const timestamp = new Date().toISOString();
-
-    if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-      return {
-        ...(payload as Record<string, unknown>),
-        timestamp
-      };
-    }
-
-    return { payload, timestamp };
+export default class TimestampAction<
+  T extends object,
+> implements PipelineAction<T, Timestamped<T>> {
+  async execute(payload: Payload<T>): Promise<Payload<Timestamped<T>>> {
+    return {
+      ...payload,
+      data: {
+        ...payload.data,
+        timestamp: new Date().toISOString(),
+      },
+    };
   }
 }

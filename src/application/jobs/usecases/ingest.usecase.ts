@@ -1,26 +1,26 @@
-
 import IUseCase from "@core/shared/useCase";
-import IPipelineRepository  from "@core/repositories/pipeline";
+import IPipelineRepository from "@core/repositories/pipeline";
 import isDatabaseError from "@application/shared/db/databaseError";
 import ConflictError from "@core/errors/conflictError";
-import  IJobRepository  from "@core/repositories/jobs";
+import { IJobRepository } from "@core/repositories/jobs";
 import NotFoundError from "@core/errors/notFoundError";
 import { Job } from "@core/models";
-import JobRequest from "@core/dto/jobs/jobRequest.dto";;
+import JobRequest from "@core/dto/jobs/jobRequest.dto";
 import JobStatus from "@core/enum/jobStatus.enum";
 import { JobPublisher } from "@core/interfaces/queues/jobPublisher";
 import JobMessage from "@core/dto/rabbitmq/jobMessaage";
 import { Exchanges, RoutingKeys } from "@core/enum";
-
-// IngestUseCase.ts
-export default class IngestUseCase implements IUseCase<{jobId: string}> {
+export default class IngestUseCase implements IUseCase<{ jobId: string }> {
   constructor(
     private readonly pipelineRepository: IPipelineRepository,
     private readonly jobRepository: IJobRepository,
-    private readonly jobPublisher: JobPublisher
+    private readonly jobPublisher: JobPublisher,
   ) {}
 
-  async call(sourcePath: string | string[], payload: JobRequest): Promise<{ jobId: string }> {
+  async call(
+    sourcePath: string | string[],
+    payload: JobRequest,
+  ): Promise<{ jobId: string }> {
     const data = Array.isArray(sourcePath) ? sourcePath[0] : sourcePath;
 
     try {
@@ -38,17 +38,22 @@ export default class IngestUseCase implements IUseCase<{jobId: string}> {
       const jobCreated = await this.jobRepository.create(job);
       const message: JobMessage = {
         jobId: jobCreated.id,
-        actionType: pipeline.actionType, 
+        actionType: pipeline.actionType,
         actionConfig: pipeline.actionConfig,
         payload: payload.payload,
       };
 
       console.log("Publishing message:", JSON.stringify(message));
-    console.log("Exchange:", Exchanges.JOBS, "RoutingKey:", RoutingKeys.JOB_CREATED);
+      console.log(
+        "Exchange:",
+        Exchanges.JOBS,
+        "RoutingKey:",
+        RoutingKeys.JOB_CREATED,
+      );
 
-  await this.jobPublisher.publishJob(message);
+      await this.jobPublisher.publishJob(message);
 
-console.log("Message published successfully");
+      console.log("Message published successfully");
 
       return { jobId: jobCreated.id };
     } catch (error: unknown) {

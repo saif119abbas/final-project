@@ -49,9 +49,7 @@ export default class UpdatePipelineUseCase implements IUseCase<PipelineResponse>
 
     if (incomingSubscribers !== undefined) {
       const deduped = Array.from(new Set(incomingSubscribers));
-      const existingByUrl = new Map(
-        existingSubscribers.map((s) => [s.url, s]),
-      );
+      const existingByUrl = new Map(existingSubscribers.map((s) => [s.url, s]));
       const desiredSet = new Set(deduped);
 
       const toAdd = deduped.filter((url) => !existingByUrl.has(url));
@@ -65,7 +63,10 @@ export default class UpdatePipelineUseCase implements IUseCase<PipelineResponse>
           subscriber.pipelineId = pipelineId;
           subscriber.url = url;
           await this.subscriberRepository.create(
-            subscriber as unknown as Omit<Subscriber, "updatedAt" | "createdAt">,
+            subscriber as unknown as Omit<
+              Subscriber,
+              "updatedAt" | "createdAt"
+            >,
           );
         } catch (error: unknown) {
           if (isDatabaseError(error) && error.cause.code === "23505") {
@@ -94,4 +95,3 @@ export default class UpdatePipelineUseCase implements IUseCase<PipelineResponse>
     return `${base}/webhooks/${sourcePath}`;
   }
 }
-

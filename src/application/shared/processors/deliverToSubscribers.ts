@@ -30,4 +30,3 @@ export async function deliverToSubscribers(
 
   return { failed };
 }
-

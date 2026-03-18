@@ -1,4 +1,4 @@
-enum QueueType{
-DEFAULT_QUEUE="pipeline_jobs"
+enum QueueType {
+  DEFAULT_QUEUE = "pipeline_jobs",
 }
-export default QueueType
+export default QueueType;

@@ -1,5 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 import JobStatus from "@core/enum/jobStatus.enum";
+import { Payload } from "./jobRequest.dto";
 
 export default class JobResponse {
   @AutoMap()
@@ -9,7 +10,7 @@ export default class JobResponse {
   pipelineid!: string;
 
   @AutoMap()
-  payload!: string;
+  payload!: Payload;
 
   @AutoMap()
   status!: JobStatus;
@@ -23,4 +24,3 @@ export default class JobResponse {
   @AutoMap()
   updatedAt!: Date | null;
 }
-

@@ -1,25 +1,26 @@
+import { Payload } from "@core/dto/jobs/jobRequest.dto";
 import PipelineAction from "@core/interfaces/actions/pipelineAction";
-import type { ActionConfig } from "@core/models/pipeline.model";
 
-export default class ApiCallAction implements PipelineAction {
+type Config = {
+  url: string;
+  method: string;
+};
 
-  async execute(payload: unknown, config: ActionConfig): Promise<unknown> {
+export default class ApiCallAction<TIn, TOut> implements PipelineAction<
+  TIn,
+  TOut
+> {
+  async execute(payload: Payload<TIn, Config>): Promise<Payload<TOut>> {
+    const { config } = payload;
 
-    const url = config.url;
-
-    if (typeof url !== "string" || !url) {
-      throw new Error("MAKE_API_CALL requires actionConfig.url");
+    if (!config) {
+      throw new Error("Config not set");
     }
 
-    const method =
-      typeof config.method === "string"
-        ? config.method
-        : "POST";
-
-    const res = await fetch(url, {
-      method,
+    const res = await fetch(config.url, {
+      method: config.method ?? "POST",
       headers: { "content-type": "application/json" },
-      body: method === "GET" ? undefined : JSON.stringify(payload),
+      body: config.method === "GET" ? undefined : JSON.stringify(payload.data),
     });
 
     const text = await res.text();
@@ -28,10 +29,9 @@ export default class ApiCallAction implements PipelineAction {
       throw new Error(`API call failed: ${res.status}`);
     }
 
-    try {
-      return JSON.parse(text);
-    } catch {
-      return text;
-    }
+    return {
+      ...payload,
+      data: JSON.parse(text),
+    };
   }
 }

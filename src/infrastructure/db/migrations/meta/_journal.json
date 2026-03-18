@@ -15,6 +15,13 @@
       "when": 1773480073266,
       "tag": "0001_swift_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773792540310,
+      "tag": "0002_open_korg",
+      "breakpoints": true
     }
   ]
 }

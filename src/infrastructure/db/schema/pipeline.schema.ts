@@ -9,15 +9,15 @@ export const pipelines = pgTable("pipelines", {
   name: text("name").notNull(),
   description: text("description"),
 
-  ownerId: uuid("owner_id")      
+  ownerId: uuid("owner_id")
     .notNull()
-    .references(() => users.id),    
+    .references(() => users.id),
 
   sourcePath: text("source_path").notNull().unique(),
 
   actionType: actionTypeEnum("action_type").notNull(),
 
-  actionConfig: jsonb("action_config") 
+  actionConfig: jsonb("action_config")
     .$type<ActionConfig>()
     .notNull()
     .default({}),

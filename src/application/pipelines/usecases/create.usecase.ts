@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import IUseCase from "@core/shared/useCase";
-import IPipelineRepository  from "@core/repositories/pipeline";
+import IPipelineRepository from "@core/repositories/pipeline";
 import PipelineRequest from "@core/dto/pipeline/pipelineRequest.dto";
 import PipelineResponse from "@core/dto/pipeline/pipelineRespone.dto";
 import isDatabaseError from "@application/shared/db/databaseError";
@@ -21,7 +21,10 @@ export default class CreatePipelineUseCase implements IUseCase<PipelineResponse>
     private readonly options: CreatePipelineOptions = {},
   ) {}
 
-  async call(ownerId: string, data: PipelineRequest): Promise<PipelineResponse> {
+  async call(
+    ownerId: string,
+    data: PipelineRequest,
+  ): Promise<PipelineResponse> {
     const sourcePath = this.generateSourcePath(this.options.sourcePathPrefix);
 
     try {
@@ -34,11 +37,14 @@ export default class CreatePipelineUseCase implements IUseCase<PipelineResponse>
       const subscriberUrls = data.subscribers ?? [];
       for (const url of subscriberUrls) {
         try {
-          const subscriber:Subscriber = new Subscriber();
+          const subscriber: Subscriber = new Subscriber();
           subscriber.pipelineId = createdPipeline.id;
           subscriber.url = url;
           await this.subscriberRepository.create(
-            subscriber as unknown as Omit<Subscriber, "updatedAt" | "createdAt">,
+            subscriber as unknown as Omit<
+              Subscriber,
+              "updatedAt" | "createdAt"
+            >,
           );
         } catch (error: unknown) {
           if (isDatabaseError(error) && error.cause.code === "23505") {
@@ -48,11 +54,7 @@ export default class CreatePipelineUseCase implements IUseCase<PipelineResponse>
         }
       }
 
-      const response = mapper.map(
-        createdPipeline,
-        Pipeline,
-        PipelineResponse,
-      );
+      const response = mapper.map(createdPipeline, Pipeline, PipelineResponse);
       response.ingestUrl = this.buildIngestUrl(createdPipeline.sourcePath);
       response.subscribers = subscriberUrls;
       return response;

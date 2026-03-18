@@ -16,11 +16,10 @@ function publishJSON<T>(
       { contentType: "application/json" },
       (err) => {
         if (err) reject(err);
-        else 
-        { 
+        else {
           resolve();
         }
-      }
+      },
     );
   });
 }
@@ -29,13 +28,12 @@ export function publishMsgPack<T>(
   exchange: string,
   routingKey: string,
   value: T,
-): Promise<void>
-{
-    return new Promise((resolve, reject) => {
-    const options={
-      contentType: "application/x-msgpack"
-    }
-    const binaryMessage=Buffer.from(encode(value,options))
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      contentType: "application/x-msgpack",
+    };
+    const binaryMessage = Buffer.from(encode(value, options));
     ch.publish(
       exchange,
       routingKey,
@@ -43,13 +41,11 @@ export function publishMsgPack<T>(
       { contentType: "application/json" },
       (err) => {
         if (err) reject(err);
-        else 
-        { 
+        else {
           resolve();
         }
-      }
+      },
     );
   });
-
 }
-export {publishJSON}
+export { publishJSON };

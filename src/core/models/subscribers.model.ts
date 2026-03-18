@@ -1,6 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 
-export default class Subscriber  {
+export default class Subscriber {
   @AutoMap()
   id!: string;
   @AutoMap()
@@ -11,4 +11,4 @@ export default class Subscriber  {
   createdAt!: Date | null;
   @AutoMap()
   updatedAt!: Date;
-};
+}

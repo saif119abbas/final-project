@@ -11,11 +11,22 @@ export default class WebhookRouter {
   private readonly controller: WebhookController;
   private readonly router: Router;
 
-  constructor(private readonly app: Express,private readonly ch:ConfirmChannel) {
+  constructor(
+    private readonly app: Express,
+    private readonly ch: ConfirmChannel,
+  ) {
     const pipelineRepository = new PipelineRepository();
     const jobsRepository = new JobRepository();
-    const jobPublisher=new RabbitJobPublisher(this.ch,Exchanges.JOBS,RoutingKeys.JOB_CREATED)
-    const ingestUseCase=new IngestUseCase(pipelineRepository,jobsRepository,jobPublisher)
+    const jobPublisher = new RabbitJobPublisher(
+      this.ch,
+      Exchanges.JOBS,
+      RoutingKeys.JOB_CREATED,
+    );
+    const ingestUseCase = new IngestUseCase(
+      pipelineRepository,
+      jobsRepository,
+      jobPublisher,
+    );
     this.controller = new WebhookController(ingestUseCase);
     this.router = Router();
     this.registerEndpoints();
@@ -26,4 +37,3 @@ export default class WebhookRouter {
     this.router.post("/:sourcePath", this.controller.ingest);
   }
 }
-

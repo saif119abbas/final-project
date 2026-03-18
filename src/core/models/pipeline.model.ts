@@ -29,7 +29,7 @@ export default class Pipeline {
 
   @AutoMap()
   actionConfig!: ActionConfig;
-  
+
   @AutoMap()
   createdAt!: Date | null;
   @AutoMap()

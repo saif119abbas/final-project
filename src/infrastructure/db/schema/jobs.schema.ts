@@ -3,15 +3,16 @@ import { pipelines } from "./index";
 import JobStatus from "@core/enum/jobStatus.enum";
 
 import jobStatusEnum from "./jobStatus.pgEnum";
+import { Payload } from "@core/dto/jobs/jobRequest.dto";
 
 export const jobs = pgTable("jobs", {
   id: uuid("id").primaryKey().defaultRandom(),
   pipelineId: uuid("pipeline_id").references(() => pipelines.id),
-  payload: jsonb("payload").notNull(), // store as JSONB, not text, for easier querying
+  payload: jsonb("payload").$type<Payload>().notNull(),
   status: jobStatusEnum("status").default(JobStatus.PENDING),
-  result: jsonb("result"), // output of the processing action
-  error: text("error"), // error message if processing failed
-  scheduledFor: timestamp("scheduled_for"), // when this job is eligible for processing (for retries)
+  result: jsonb("result"),
+  error: text("error"),
+  scheduledFor: timestamp("scheduled_for"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()

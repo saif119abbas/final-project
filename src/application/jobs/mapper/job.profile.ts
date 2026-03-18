@@ -8,16 +8,23 @@ export default function jobProfile(): void {
     mapper,
     JobRequest,
     Job,
-    forMember((d) => d.payload, mapFrom((s) => s.payload)),
+    forMember(
+      (d) => d.payload,
+      mapFrom((s) => s.payload),
+    ),
     forMember((dest) => dest.id, ignore()),
     forMember((dest) => dest.pipelineId, ignore()),
-    forMember((dest) => dest.status, mapFrom(() => JobStatus.PENDING)),
+    forMember(
+      (dest) => dest.status,
+      mapFrom(() => JobStatus.PENDING),
+    ),
     forMember((dest) => dest.result, ignore()),
     forMember((dest) => dest.error, ignore()),
-    forMember((dest) => dest.scheduledFor,
-      mapFrom(() => new Date(Date.now() + 2 * 60 * 1000))
+    forMember(
+      (dest) => dest.scheduledFor,
+      mapFrom(() => new Date(Date.now() + 2 * 60 * 1000)),
     ),
     forMember((dest) => dest.createdAt, ignore()),
-    forMember((dest) => dest.updatedAt, ignore())
+    forMember((dest) => dest.updatedAt, ignore()),
   );
 }

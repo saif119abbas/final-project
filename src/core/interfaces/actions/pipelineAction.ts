@@ -1,5 +1,5 @@
-import type { ActionConfig } from "@core/models/pipeline.model";
+import { Payload } from "@core/dto/jobs/jobRequest.dto";
 
-export default interface PipelineAction {
-  execute(payload: unknown, config: ActionConfig): Promise<unknown>;
+export default interface PipelineAction<TIn = unknown, TOut = unknown> {
+  execute(payload: Payload<TIn>): Promise<Payload<TOut>>;
 }

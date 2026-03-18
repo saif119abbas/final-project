@@ -21,17 +21,23 @@ export default class PipelineRouter {
     // ============================================================================
     const pipelineRepository = new PipelineRepository();
     const subscriberRepository = new SubscriberRepository();
-    const userRepository=new UserRepository()
+    const userRepository = new UserRepository();
 
     // ============================================================================
     // USECASES
     // ============================================================================
-    const createPipelineUseCase = new CreatePipelineUseCase(pipelineRepository,subscriberRepository);
-    const updatePipelineUseCase = new UpdatePipelineUseCase(pipelineRepository,subscriberRepository);
+    const createPipelineUseCase = new CreatePipelineUseCase(
+      pipelineRepository,
+      subscriberRepository,
+    );
+    const updatePipelineUseCase = new UpdatePipelineUseCase(
+      pipelineRepository,
+      subscriberRepository,
+    );
     const deleteUseCase = new DeletePipelineUseCase(pipelineRepository);
     const getAllUseCaese = new GetAllPipelinesUseCase(pipelineRepository);
     const findUserByIdUsecase = new FindUserByIdUseCase(userRepository);
-    
+
     // ============================================================================
     // CONTROLLERS
     // ============================================================================
@@ -40,35 +46,31 @@ export default class PipelineRouter {
       createPipelineUseCase,
       updatePipelineUseCase,
       deleteUseCase,
-      getAllUseCaese
+      getAllUseCaese,
     );
     this.router = Router();
     this.registerEndpoints();
   }
 
-private registerEndpoints() {
-  this.app.use("/api/pipelines", this.router);
+  private registerEndpoints() {
+    this.app.use("/api/pipelines", this.router);
 
-  this.router.use(this.authMiddleWare.authentication);
+    this.router.use(this.authMiddleWare.authentication);
 
-  this.router.post(
-    "/",
-    validate(PipelineRequestSchema),
-    this.controller.createPipeline.bind(this.controller)
-  );
-  this.router.put(
-    "/:id",
-    validate(PipelineRequestSchema),
-    this.controller.updatePipeline.bind(this.controller)
-  );
-  this.router.delete(
-    "/:id",
-    this.controller.deletePipeline.bind(this.controller)
-  );
-  this.router.get(
-    "/",
-    this.controller.getAllPipelines.bind(this.controller)
-  );
-}
-
+    this.router.post(
+      "/",
+      validate(PipelineRequestSchema),
+      this.controller.createPipeline.bind(this.controller),
+    );
+    this.router.put(
+      "/:id",
+      validate(PipelineRequestSchema),
+      this.controller.updatePipeline.bind(this.controller),
+    );
+    this.router.delete(
+      "/:id",
+      this.controller.deletePipeline.bind(this.controller),
+    );
+    this.router.get("/", this.controller.getAllPipelines.bind(this.controller));
+  }
 }
