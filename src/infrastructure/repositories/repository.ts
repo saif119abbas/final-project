@@ -1,5 +1,5 @@
 import { db } from "@infrastructure/db/index";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { AnyPgTable, PgColumn, PgTable } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import IRepository from "@core/repositories/repository";
@@ -35,14 +35,18 @@ export default class Repository<
   async findAll(
     page: number,
     limit: number,
-  ): Promise<InferSelectModel<TTable>[]> {
+  ): Promise<{ data: InferSelectModel<TTable>[]; total: number }> {
     const offset = (page - 1) * limit;
-    const results = await db
+    const [{ count }] = await db
+      .select({ count: sql<number>`count(*)`.mapWith(Number) })
+      .from(this.table as PgTable);
+
+    const data = await db
       .select()
       .from(this.table as PgTable)
       .limit(limit)
       .offset(offset);
-    return results as InferSelectModel<TTable>[];
+    return { data: data as InferSelectModel<TTable>[], total: count };
   }
 
   async update(
