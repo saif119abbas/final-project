@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const notFoundError_1 = __importDefault(require("@core/errors/notFoundError"));
-const connection_1 = require("@infrastructure/rabbitmq/connection");
+const notFoundError_1 = __importDefault(require("../../core/errors/notFoundError"));
+const connection_1 = require("../../infrastructure/rabbitmq/connection");
 class WebhookController {
     constructor(pipelineRepository, jobsRepository) {
         this.pipelineRepository = pipelineRepository;

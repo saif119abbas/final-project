@@ -1,7 +1,7 @@
 import { pgTable, timestamp, uuid, serial, text } from "drizzle-orm/pg-core";
 import { jobs, subscribers } from "./index";
-import JobStatus from "@core/enum/jobStatus.enum";
-import jobStatusEnum from "./jobStatus.pgEnum";
+import attemptStatusEnum from "./attemptStatus.enum";
+import AttemptStatus from "@core/enum/attemptStatus.enum";
 export const jobAttempts = pgTable("job_attempts", {
   id: uuid("id").primaryKey().defaultRandom(),
   jobId: uuid("job_id").references(() => jobs.id),
@@ -9,7 +9,8 @@ export const jobAttempts = pgTable("job_attempts", {
   attemptNumber: serial("attempt_number"),
   responseCode: text("response_code"),
   responseBody: text("response_body"),
-  status: jobStatusEnum("status").default(JobStatus.PENDING),
+  status: attemptStatusEnum("status").default(AttemptStatus.PENDING),
+  nextRetryAt: timestamp("next_retry_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()

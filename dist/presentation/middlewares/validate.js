@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const badRequestError_1 = __importDefault(require("@core/errors/badRequestError"));
+const badRequestError_1 = __importDefault(require("../../core/errors/badRequestError"));
 function validate(schema) {
     return (req, _res, next) => {
         const result = schema.safeParse(req.body);

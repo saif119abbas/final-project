@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const pipeline_repository_1 = __importDefault(require("@infrastructure/repositories/pipeline.repository"));
-const jobs_repository_1 = __importDefault(require("@infrastructure/repositories/jobs.repository"));
-const webhook_controller_1 = __importDefault(require("@presentation/controllers/webhook.controller"));
+const pipeline_repository_1 = __importDefault(require("../../infrastructure/repositories/pipeline.repository"));
+const jobs_repository_1 = __importDefault(require("../../infrastructure/repositories/jobs.repository"));
+const webhook_controller_1 = __importDefault(require("../controllers/webhook.controller"));
 class WebhookRouter {
     constructor(app) {
         this.app = app;

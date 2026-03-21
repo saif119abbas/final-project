@@ -1,6 +1,6 @@
-export default class NotFoundError extends Error {
-    name = "NotFoundError";
-    httpStatus = 404;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class NotFoundError extends Error {
     // ── Implementation ───────────────────────
     constructor(arg1 = "Record", arg2, arg3) {
         let message;
@@ -12,6 +12,9 @@ export default class NotFoundError extends Error {
             message = arg1;
         }
         super(message);
+        this.name = "NotFoundError";
+        this.httpStatus = 404;
         Object.setPrototypeOf(this, new.target.prototype);
     }
 }
+exports.default = NotFoundError;

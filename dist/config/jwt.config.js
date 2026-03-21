@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const jwtConfig = {
     accessToken: {
         secret: (process.env.JWT_SECRET || ""),
@@ -13,7 +15,8 @@ const jwtConfig = {
 if (!jwtConfig.accessToken.secret || !jwtConfig.refreshToken.secret) {
     throw new Error("JWT secrets must be configured in environment variables");
 }
-if (jwtConfig.accessToken.secret.length < 32 || jwtConfig.refreshToken.secret.length < 32) {
+if (jwtConfig.accessToken.secret.length < 32 ||
+    jwtConfig.refreshToken.secret.length < 32) {
     throw new Error("JWT secrets must be at least 32 characters long");
 }
-export default jwtConfig;
+exports.default = jwtConfig;

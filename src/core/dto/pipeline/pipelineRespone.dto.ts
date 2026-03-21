@@ -1,6 +1,5 @@
 import { AutoMap } from "@automapper/classes";
 import ActionType from "@core/enum/actionType.enum";
-import type { ActionConfig } from "@core/models/pipeline.model";
 
 export default class PipelineResponse {
   @AutoMap()
@@ -23,9 +22,6 @@ export default class PipelineResponse {
 
   @AutoMap()
   actionType!: ActionType;
-
-  @AutoMap()
-  actionConfig!: ActionConfig;
 
   @AutoMap()
   subscribers!: string[];

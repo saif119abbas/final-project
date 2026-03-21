@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mapper_1 = __importDefault(require("@application/shared/mapper/mapper"));
-const jwt_config_1 = __importDefault(require("@config/jwt.config"));
-const refreshTokenRequest_dto_1 = __importDefault(require("@core/dto/refreshToken/refreshTokenRequest.dto"));
-const forbiddenError_1 = __importDefault(require("@core/errors/forbiddenError"));
-const unauthorizedError_1 = __importDefault(require("@core/errors/unauthorizedError"));
-const refreshToken_model_1 = require("@core/models/refreshToken.model");
+const mapper_1 = __importDefault(require("../../shared/mapper/mapper"));
+const jwt_config_1 = __importDefault(require("../../../config/jwt.config"));
+const refreshTokenRequest_dto_1 = __importDefault(require("../../../core/dto/refreshToken/refreshTokenRequest.dto"));
+const forbiddenError_1 = __importDefault(require("../../../core/errors/forbiddenError"));
+const unauthorizedError_1 = __importDefault(require("../../../core/errors/unauthorizedError"));
+const refreshToken_model_1 = require("../../../core/models/refreshToken.model");
 const ms_1 = __importDefault(require("ms"));
 class RefreshTokenUseCase {
     constructor(refreshTokenRepository, verifyToken, generateTokenPair, decodeToken, setRefreshTokenCookie, clearRefreshTokenCookie) {

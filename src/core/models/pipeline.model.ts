@@ -1,13 +1,6 @@
 import { AutoMap } from "@automapper/classes";
 import ActionType from "@core/enum/actionType.enum";
 
-export type ActionConfig = {
-  url?: string;
-  method?: string;
-  headers?: Record<string, string>;
-  [key: string]: unknown;
-};
-
 export default class Pipeline {
   @AutoMap()
   id!: string;
@@ -28,10 +21,8 @@ export default class Pipeline {
   actionType!: ActionType;
 
   @AutoMap()
-  actionConfig!: ActionConfig;
-
-  @AutoMap()
   createdAt!: Date | null;
+
   @AutoMap()
   updatedAt!: Date | null;
 }

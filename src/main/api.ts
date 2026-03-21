@@ -11,7 +11,6 @@ import "dotenv/config";
 import express from "express";
 
 async function bootstrap() {
-  // RabbitMQ setup — must run before any webhook can be ingested
   const connection = await amqp.connect(rabbitMqConfig.url);
   const ch: ConfirmChannel = await connection.createConfirmChannel();
   await declareAndBind(

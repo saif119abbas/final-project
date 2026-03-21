@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mapper_1 = __importDefault(require("@application/shared/mapper/mapper"));
-const pipelineRespone_dto_1 = __importDefault(require("@core/dto/pipeline/pipelineRespone.dto"));
-const models_1 = require("@core/models");
-const pageResult_1 = __importDefault(require("@core/shared/pageResult"));
+const mapper_1 = __importDefault(require("../../shared/mapper/mapper"));
+const pipelineRespone_dto_1 = __importDefault(require("../../../core/dto/pipeline/pipelineRespone.dto"));
+const models_1 = require("../../../core/models");
+const pageResult_1 = __importDefault(require("../../../core/shared/pageResult"));
 class GetAllPipelinesUseCase {
     constructor(pipelineRepository) {
         this.pipelineRepository = pipelineRepository;

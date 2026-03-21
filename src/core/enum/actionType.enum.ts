@@ -1,7 +1,7 @@
 enum ActionType {
-  UPPERCASE = "UPPERCASE",
-  ADD_TIMESTAMP = "ADD_TIMESTAMP",
-  MAKE_API_CALL = "MAKE_API_CALL",
+  FORMAT_TEXT = "FORMAT_TEXT",
+  ADD_META = "ADD_META",
+  FILTER_FIELDS = "FILTER_FIELDS",
 }
 
 export default ActionType;
