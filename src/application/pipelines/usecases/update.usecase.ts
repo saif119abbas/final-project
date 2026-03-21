@@ -38,7 +38,6 @@ export default class UpdatePipelineUseCase implements IUseCase<PipelineResponse>
       name: data.name,
       description: data.description ?? null,
       actionType: data.actionType,
-      actionConfig: data.actionConfig ?? {},
     });
 
     const existingSubscribers =

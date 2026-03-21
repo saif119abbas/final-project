@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runAction = runAction;
-const actionType_enum_1 = __importDefault(require("@core/enum/actionType.enum"));
+const actionType_enum_1 = __importDefault(require("../../../core/enum/actionType.enum"));
 async function runAction(actionType, actionConfig, payload) {
     switch (actionType) {
         case actionType_enum_1.default.UPPERCASE:

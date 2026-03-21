@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const pipelineRespone_dto_1 = __importDefault(require("@core/dto/pipeline/pipelineRespone.dto"));
-const models_1 = require("@core/models");
-const mapper_1 = __importDefault(require("@application/shared/mapper/mapper"));
-const notFoundError_1 = __importDefault(require("@core/errors/notFoundError"));
-const forbiddenError_1 = __importDefault(require("@core/errors/forbiddenError"));
-const databaseError_1 = __importDefault(require("@application/shared/db/databaseError"));
-const conflictError_1 = __importDefault(require("@core/errors/conflictError"));
+const pipelineRespone_dto_1 = __importDefault(require("../../../core/dto/pipeline/pipelineRespone.dto"));
+const models_1 = require("../../../core/models");
+const mapper_1 = __importDefault(require("../../shared/mapper/mapper"));
+const notFoundError_1 = __importDefault(require("../../../core/errors/notFoundError"));
+const forbiddenError_1 = __importDefault(require("../../../core/errors/forbiddenError"));
+const databaseError_1 = __importDefault(require("../../shared/db/databaseError"));
+const conflictError_1 = __importDefault(require("../../../core/errors/conflictError"));
 class UpdatePipelineUseCase {
     constructor(pipelineRepository, subscriberRepository, options = {}) {
         this.pipelineRepository = pipelineRepository;
@@ -28,7 +28,6 @@ class UpdatePipelineUseCase {
             name: data.name,
             description: data.description ?? null,
             actionType: data.actionType,
-            actionConfig: data.actionConfig ?? {},
         });
         const existingSubscribers = await this.subscriberRepository.findByPipelineId(pipelineId);
         const incomingSubscribers = data.subscribers;

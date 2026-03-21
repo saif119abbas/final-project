@@ -4,18 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const user_repository_1 = __importDefault(require("@infrastructure/repositories/user.repository"));
-const validate_1 = __importDefault(require("@presentation/middlewares/validate"));
-const auth_1 = __importDefault(require("@presentation/middlewares/auth"));
-const findUserById_usecase_1 = __importDefault(require("@application/user/usecases/findUserById.usecase"));
-const pipeline_controller_1 = __importDefault(require("@presentation/controllers/pipeline.controller"));
-const pipeline_repository_1 = __importDefault(require("@infrastructure/repositories/pipeline.repository"));
-const create_usecase_1 = __importDefault(require("@application/pipelines/usecases/create.usecase"));
-const subscripers_repository_1 = __importDefault(require("@infrastructure/repositories/subscripers.repository"));
-const pipeline_1 = require("@application/pipelines/validation/pipeline");
-const update_usecase_1 = __importDefault(require("@application/pipelines/usecases/update.usecase"));
-const delete_usecase_1 = __importDefault(require("@application/pipelines/usecases/delete.usecase"));
-const getAll_usecase_1 = __importDefault(require("@application/pipelines/usecases/getAll.usecase"));
+const user_repository_1 = __importDefault(require("../../infrastructure/repositories/user.repository"));
+const validate_1 = __importDefault(require("../middlewares/validate"));
+const auth_1 = __importDefault(require("../middlewares/auth"));
+const findUserById_usecase_1 = __importDefault(require("../../application/user/usecases/findUserById.usecase"));
+const pipeline_controller_1 = __importDefault(require("../controllers/pipeline.controller"));
+const pipeline_repository_1 = __importDefault(require("../../infrastructure/repositories/pipeline.repository"));
+const create_usecase_1 = __importDefault(require("../../application/pipelines/usecases/create.usecase"));
+const subscripers_repository_1 = __importDefault(require("../../infrastructure/repositories/subscripers.repository"));
+const pipeline_1 = require("../../application/pipelines/validation/pipeline");
+const update_usecase_1 = __importDefault(require("../../application/pipelines/usecases/update.usecase"));
+const delete_usecase_1 = __importDefault(require("../../application/pipelines/usecases/delete.usecase"));
+const getAll_usecase_1 = __importDefault(require("../../application/pipelines/usecases/getAll.usecase"));
 class PipelineRouter {
     constructor(app) {
         this.app = app;

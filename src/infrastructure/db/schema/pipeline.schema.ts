@@ -1,6 +1,5 @@
-import { pgTable, text, timestamp, uuid, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import actionTypeEnum from "./actionType.pgEnum";
-import type { ActionConfig } from "@core/models/pipeline.model";
 import { users } from "./users.schema"; // assuming you have a users table
 
 export const pipelines = pgTable("pipelines", {
@@ -16,14 +15,7 @@ export const pipelines = pgTable("pipelines", {
   sourcePath: text("source_path").notNull().unique(),
 
   actionType: actionTypeEnum("action_type").notNull(),
-
-  actionConfig: jsonb("action_config")
-    .$type<ActionConfig>()
-    .notNull()
-    .default({}),
-
   createdAt: timestamp("created_at").defaultNow(),
-
   updatedAt: timestamp("updated_at")
     .notNull()
     .defaultNow()

@@ -32,23 +32,24 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DEFAULT_QUEUE = void 0;
 exports.getRabbitChannel = getRabbitChannel;
-exports.publishJson = publishJson;
 const amqp = __importStar(require("amqplib"));
+const rabittmq_config_1 = __importDefault(require("../../config/rabittmq.config"));
 let connection = null;
 let channel = null;
-exports.DEFAULT_QUEUE = "pipeline_jobs";
 async function getRabbitChannel() {
     if (channel)
         return channel;
-    const rabbitUrl = process.env.RABBITMQ_URL;
+    const rabbitUrl = rabittmq_config_1.default.url;
     if (!rabbitUrl) {
         throw new Error("RABBITMQ_URL is not set");
     }
     connection = await amqp.connect(rabbitUrl);
-    channel = await connection.createChannel();
+    channel = await connection.createConfirmChannel();
     const close = async () => {
         try {
             await channel?.close();
@@ -68,10 +69,4 @@ async function getRabbitChannel() {
     process.on("SIGINT", close);
     process.on("SIGTERM", close);
     return channel;
-}
-async function publishJson(queue, message, options = { persistent: true }) {
-    const ch = await getRabbitChannel();
-    await ch.assertQueue(queue, { durable: true });
-    const payload = Buffer.from(JSON.stringify(message));
-    ch.sendToQueue(queue, payload, options);
 }

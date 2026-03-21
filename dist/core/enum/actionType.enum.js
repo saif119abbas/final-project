@@ -1,7 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ActionType;
 (function (ActionType) {
-    ActionType["UPPERCASE"] = "UPPERCASE";
-    ActionType["ADD_TIMESTAMP"] = "ADD_TIMESTAMP";
-    ActionType["MAKE_API_CALL"] = "MAKE_API_CALL";
+    ActionType["FORMAT_TEXT"] = "FORMAT_TEXT";
+    ActionType["ADD_META"] = "ADD_META";
+    ActionType["FILTER_FIELDS"] = "FILTER_FIELDS";
 })(ActionType || (ActionType = {}));
-export default ActionType;
+exports.default = ActionType;

@@ -1,22 +1,20 @@
 import ActionType from "@core/enum/actionType.enum";
 import PipelineAction from "@core/interfaces/actions/pipelineAction";
-
-import UppercaseAction from "./uppercase.action";
-import TimestampAction from "./timestamp.action";
-import ApiCallAction from "./apiCall.action";
+import FormatTextAction from "./foramatText.action";
+import MetaAction from "./addMeta.action";
+import FilterFieldsAction from "./filterFields.action";
 
 export default class ActionFactory {
   static create(type: ActionType): PipelineAction {
     switch (type) {
-      case ActionType.UPPERCASE:
-        return new UppercaseAction();
+      case ActionType.FORMAT_TEXT:
+        return new FormatTextAction();
 
-      case ActionType.ADD_TIMESTAMP:
-        return new TimestampAction();
+      case ActionType.ADD_META:
+        return new MetaAction();
 
-      case ActionType.MAKE_API_CALL:
-        return new ApiCallAction();
-
+      case ActionType.FILTER_FIELDS:
+        return new FilterFieldsAction();
       default:
         throw new Error(`Unsupported action type: ${type}`);
     }

@@ -33,13 +33,12 @@ export default class IngestUseCase implements IUseCase<{ jobId: string }> {
       job.pipelineId = pipeline.id;
       job.payload = payload.payload;
       job.status = JobStatus.PENDING;
-      job.scheduledFor = new Date(Date.now() + 2 * 60 * 1000);
+      job.scheduledFor = new Date(Date.now() + 60 * 1000);
 
       const jobCreated = await this.jobRepository.create(job);
       const message: JobMessage = {
         jobId: jobCreated.id,
         actionType: pipeline.actionType,
-        actionConfig: pipeline.actionConfig,
         payload: payload.payload,
       };
 

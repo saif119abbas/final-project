@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const successResponse_1 = require("@presentation/http/responses/successResponse");
+const successResponse_1 = require("../http/responses/successResponse");
 class PipelineController {
     constructor(createUseCase, updateUseCase, deleteUseCase, getAllUseCase) {
         this.createUseCase = createUseCase;

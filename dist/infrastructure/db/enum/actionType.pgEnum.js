@@ -1,4 +1,4 @@
-import ActionType from "@core/enum/actionType.enum";
+import ActionType from "../../../core/enum/actionType.enum";
 import { pgEnum } from "drizzle-orm/pg-core";
 const actionTypeEnum = pgEnum('action_type', [
     ActionType.UPPERCASE,

@@ -1,8 +1,8 @@
 import { Express } from "express";
 import UserRouter from "./user";
 import PipelineRouter from "./pipeline";
-import WebhookRouter from "./webhook";
 import { ConfirmChannel } from "amqplib";
+import JobRouter from "./job";
 export default class Router {
   constructor(
     private readonly app: Express,
@@ -13,6 +13,6 @@ export default class Router {
   private registerEndpoints() {
     new UserRouter(this.app);
     new PipelineRouter(this.app);
-    new WebhookRouter(this.app, this.ch);
+    new JobRouter(this.app, this.ch);
   }
 }

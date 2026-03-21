@@ -7,20 +7,17 @@ export default class JobResponse {
   id!: string;
 
   @AutoMap()
-  pipelineid!: string;
+  pipeline!: string | null;
 
   @AutoMap()
   payload!: Payload;
 
   @AutoMap()
-  status!: JobStatus;
+  jobStatus!: JobStatus | null;
 
   @AutoMap()
-  scheduledFor!: Date;
+  scheduledFor!: Date | null;
 
   @AutoMap()
   createdAt!: Date | null;
-
-  @AutoMap()
-  updatedAt!: Date | null;
 }

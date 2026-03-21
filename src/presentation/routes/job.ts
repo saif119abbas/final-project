@@ -1,14 +1,17 @@
 import { Express, Router } from "express";
 import PipelineRepository from "@infrastructure/repositories/pipeline.repository";
-import WebhookController from "@presentation/controllers/webhook.controller";
 import JobRepository from "@infrastructure/repositories/jobs.repository";
 import IngestUseCase from "@application/jobs/usecases/ingest.usecase";
 import RabbitJobPublisher from "@infrastructure/rabbitmq/jobPublisher";
 import { Exchanges, RoutingKeys } from "@core/enum";
 import { ConfirmChannel } from "amqplib";
+import JobController from "@presentation/controllers/job.controller";
+import GetJobById from "@application/jobs/usecases/getJobById.usecase";
+import GetAttemptsUsecase from "@application/jobs/usecases/getAttempts.usecase";
+import getJobsUsecase from "@application/jobs/usecases/getJobs.usecase";
 
-export default class WebhookRouter {
-  private readonly controller: WebhookController;
+export default class JobRouter {
+  private readonly controller: JobController;
   private readonly router: Router;
 
   constructor(
@@ -27,13 +30,24 @@ export default class WebhookRouter {
       jobsRepository,
       jobPublisher,
     );
-    this.controller = new WebhookController(ingestUseCase);
+    const getJobDetailUsecase = new GetJobById(jobsRepository);
+    const getAttemptsUsecase = new GetAttemptsUsecase(jobsRepository);
+    const getJobs = new getJobsUsecase(jobsRepository);
+    this.controller = new JobController(
+      ingestUseCase,
+      getJobDetailUsecase,
+      getAttemptsUsecase,
+      getJobs,
+    );
     this.router = Router();
     this.registerEndpoints();
   }
 
   private registerEndpoints() {
-    this.app.use("/webhooks", this.router);
-    this.router.post("/:sourcePath", this.controller.ingest);
+    this.app.post("/webhooks/:sourcePath", this.controller.ingest);
+    this.router.get("/:id", this.controller.getJobDetails);
+    this.router.get("/:id/attempts", this.controller.getAttempts);
+    this.router.get("", this.controller.getJobs);
+    this.app.use("/jobs", this.router);
   }
 }

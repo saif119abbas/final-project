@@ -5,5 +5,6 @@ const jobStatusEnum = pgEnum("job_status", [
   JobStatus.SUCCESS,
   JobStatus.FAILED,
   JobStatus.PROCESSING,
+  JobStatus.PARTIAL,
 ]);
 export default jobStatusEnum;

@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const forbiddenError_1 = __importDefault(require("@core/errors/forbiddenError"));
-const unauthorizedError_1 = __importDefault(require("@core/errors/unauthorizedError"));
+const forbiddenError_1 = __importDefault(require("../../../core/errors/forbiddenError"));
+const unauthorizedError_1 = __importDefault(require("../../../core/errors/unauthorizedError"));
 class LogoutUseCase {
     constructor(refreshTokenRepository, decodeToken, clearRefreshTokenCookie) {
         this.refreshTokenRepository = refreshTokenRepository;

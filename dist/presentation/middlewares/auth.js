@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jwt_config_1 = __importDefault(require("@config/jwt.config"));
-const unauthorizedError_1 = __importDefault(require("@core/errors/unauthorizedError"));
-const verfiyToken_1 = __importDefault(require("@infrastructure/utils/jwt/verfiyToken"));
+const jwt_config_1 = __importDefault(require("../../config/jwt.config"));
+const unauthorizedError_1 = __importDefault(require("../../core/errors/unauthorizedError"));
+const verfiyToken_1 = __importDefault(require("../../infrastructure/utils/jwt/verfiyToken"));
 class AuthenticationMiddleware {
     constructor(findUserByIdUseCase) {
         this.findUserByIdUseCase = findUserByIdUseCase;
@@ -23,10 +23,7 @@ class AuthenticationMiddleware {
                 const decoded = verifyResult;
                 const userId = decoded.id;
                 const user = await this.findUserByIdUseCase.call(userId);
-                if (user === null) {
-                    throw new unauthorizedError_1.default("Unfound");
-                }
-                req.userId = userId;
+                req.userId = user.id;
                 req.token = token;
                 next();
             }

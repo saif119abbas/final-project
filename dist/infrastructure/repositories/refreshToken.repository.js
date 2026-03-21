@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const repository_1 = __importDefault(require("./repository"));
-const db_1 = require("@infrastructure/db");
+const db_1 = require("../db");
 const drizzle_orm_1 = require("drizzle-orm");
-const refreshToken_schema_1 = require("@infrastructure/db/schema/refreshToken.schema");
+const refreshToken_schema_1 = require("../db/schema/refreshToken.schema");
 class RefreshTokenRepository extends repository_1.default {
     constructor() {
         super(refreshToken_schema_1.refreshTokens);

@@ -1,6 +1,8 @@
-import { classes } from "@automapper/classes";
-import { createMapper } from "@automapper/core";
-const mapper = createMapper({
-    strategyInitializer: classes(),
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const classes_1 = require("@automapper/classes");
+const core_1 = require("@automapper/core");
+const mapper = (0, core_1.createMapper)({
+    strategyInitializer: (0, classes_1.classes)(),
 });
-export default mapper;
+exports.default = mapper;

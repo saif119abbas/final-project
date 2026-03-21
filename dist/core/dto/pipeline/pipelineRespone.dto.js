@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const classes_1 = require("@automapper/classes");
-const actionType_enum_1 = __importDefault(require("@core/enum/actionType.enum"));
+const actionType_enum_1 = __importDefault(require("../../enum/actionType.enum"));
 class PipelineResponse {
 }
 exports.default = PipelineResponse;
@@ -45,10 +45,6 @@ __decorate([
     (0, classes_1.AutoMap)(),
     __metadata("design:type", String)
 ], PipelineResponse.prototype, "actionType", void 0);
-__decorate([
-    (0, classes_1.AutoMap)(),
-    __metadata("design:type", Object)
-], PipelineResponse.prototype, "actionConfig", void 0);
 __decorate([
     (0, classes_1.AutoMap)(),
     __metadata("design:type", Array)
