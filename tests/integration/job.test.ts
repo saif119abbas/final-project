@@ -61,9 +61,12 @@ function assertDefined<T>(
   value: T | undefined | null,
   message?: string,
 ): T {
-  
-  expect(value).toBe(message ?? "Expected value to be defined");
-  return value as T;
+
+  if (value === undefined || value === null) {
+    throw new Error(message ?? "Expected value to be defined");
+  }
+  expect(value).toBeDefined();
+  return value;
 }
 
 async function createJob(baseUrl: string) {
