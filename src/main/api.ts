@@ -1,14 +1,10 @@
-﻿import registerMappers from "@application/shared/mapper/registerMapper";
 import { declareAndBind } from "@infrastructure/rabbitmq/queueBinding";
-import errorHandler from "@presentation/middlewares/errorHandler";
-import Router from "@presentation/routes/router";
-import cookieParser from "cookie-parser";
 import amqp, { ConfirmChannel } from "amqplib";
 import { Exchanges, Queues, RoutingKeys } from "@core/enum";
 import rabbitMqConfig from "@config/rabittmq.config";
 import SimpleQueueType from "@core/enum/simpleQueueType.enum";
 import "dotenv/config";
-import express from "express";
+import createApp from "./app";
 
 async function bootstrap() {
   const connection = await amqp.connect(rabbitMqConfig.url);
@@ -22,17 +18,8 @@ async function bootstrap() {
   );
   console.log("RabbitMQ exchange and queue ready");
 
-  const app = express();
-  app.use(cookieParser());
-  app.use(express.json({ limit: "2mb" }));
-  app.get("/health", (_req, res) => {
-    res.status(200).json({ ok: true });
-  });
-
+  const app = createApp({ channel: ch });
   const port = Number(process.env.PORT ?? "3000");
-  new Router(app, ch);
-  registerMappers();
-  app.use(errorHandler);
 
   app.listen(port, () => {
     console.log(`API listening on :${port}`);

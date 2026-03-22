@@ -16,12 +16,12 @@ export default class GetAllPipelinesUseCase implements IUseCase<
   ): Promise<PageResult<PipelineResponse>> {
     const { data, total } = await this.pipelineRepository.findAll(page, limit);
 
-    const companies = mapper.mapArray(data, Pipeline, PipelineResponse);
+    const piplines = mapper.mapArray(data, Pipeline, PipelineResponse);
 
-    const pageResult = new PageResult(companies, total, page, limit);
+    const pageResult = new PageResult(piplines, total, page, limit);
 
     return {
-      items: companies,
+      items: piplines,
       total,
       totalPages: pageResult.totalPages,
       itemsFrom: pageResult.itemsFrom,

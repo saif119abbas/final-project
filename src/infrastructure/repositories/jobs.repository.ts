@@ -32,6 +32,10 @@ export default class JobRepository
       .leftJoin(pipelines, eq(jobs.pipelineId, pipelines.id))
       .where(eq(jobs.id, jobId))
       .limit(1);
+
+        if (!row) return null;
+    console.log("row", row);
+    
     const subs = await db
       .select({
         url: subscribers.url,
@@ -40,8 +44,6 @@ export default class JobRepository
       .where(eq(subscribers.pipelineId, row.job.pipelineId!))
       .execute();
 
-    if (!row) return null;
-    console.log("row", row);
     const [metricsResult] = await db
       .select({
         total: sql<number>`count(${jobAttempts.id})`.mapWith(Number),

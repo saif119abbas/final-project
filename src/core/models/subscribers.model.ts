@@ -4,7 +4,7 @@ export default class Subscriber {
   @AutoMap()
   id!: string;
   @AutoMap()
-  pipelineId!: string | null;
+  pipelineId!: string ;
   @AutoMap()
   url!: string;
   @AutoMap()

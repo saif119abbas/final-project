@@ -9,22 +9,33 @@ import JobController from "@presentation/controllers/job.controller";
 import GetJobById from "@application/jobs/usecases/getJobById.usecase";
 import GetAttemptsUsecase from "@application/jobs/usecases/getAttempts.usecase";
 import getJobsUsecase from "@application/jobs/usecases/getJobs.usecase";
+import { JobPublisher } from "@core/interfaces/queues/jobPublisher";
+
+type JobRouterOptions = {
+  ch?: ConfirmChannel;
+  jobPublisher?: JobPublisher;
+};
 
 export default class JobRouter {
   private readonly controller: JobController;
   private readonly router: Router;
 
-  constructor(
-    private readonly app: Express,
-    private readonly ch: ConfirmChannel,
-  ) {
+  constructor(private readonly app: Express, options: JobRouterOptions = {}) {
     const pipelineRepository = new PipelineRepository();
     const jobsRepository = new JobRepository();
-    const jobPublisher = new RabbitJobPublisher(
-      this.ch,
-      Exchanges.JOBS,
-      RoutingKeys.JOB_CREATED,
-    );
+    const jobPublisher =
+      options.jobPublisher ??
+      (options.ch
+        ? new RabbitJobPublisher(
+            options.ch,
+            Exchanges.JOBS,
+            RoutingKeys.JOB_CREATED,
+          )
+        : null);
+
+    if (!jobPublisher) {
+      throw new Error("JobPublisher or ConfirmChannel is required");
+    }
     const ingestUseCase = new IngestUseCase(
       pipelineRepository,
       jobsRepository,
