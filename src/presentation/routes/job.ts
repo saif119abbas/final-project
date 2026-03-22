@@ -20,7 +20,10 @@ export default class JobRouter {
   private readonly controller: JobController;
   private readonly router: Router;
 
-  constructor(private readonly app: Express, options: JobRouterOptions = {}) {
+  constructor(
+    private readonly app: Express,
+    options: JobRouterOptions = {},
+  ) {
     const pipelineRepository = new PipelineRepository();
     const jobsRepository = new JobRepository();
     const jobPublisher =

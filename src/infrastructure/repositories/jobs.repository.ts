@@ -33,9 +33,9 @@ export default class JobRepository
       .where(eq(jobs.id, jobId))
       .limit(1);
 
-        if (!row) return null;
+    if (!row) return null;
     console.log("row", row);
-    
+
     const subs = await db
       .select({
         url: subscribers.url,

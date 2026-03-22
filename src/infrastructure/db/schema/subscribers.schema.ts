@@ -2,7 +2,7 @@ import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { pipelines } from "./index";
 export const subscribers = pgTable("subscribers", {
   id: uuid("id").primaryKey().defaultRandom(),
-   pipelineId: uuid("pipeline_id")
+  pipelineId: uuid("pipeline_id")
     .notNull()
     .references(() => pipelines.id, {
       onDelete: "cascade",
