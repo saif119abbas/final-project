@@ -1,6 +1,4 @@
-﻿version: '3.8'
-
-services:
+﻿services:
   postgres:
     image: postgres:15-alpine
     container_name: zapier_clone_postgres
@@ -9,7 +7,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: zapier_clone
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,11 +20,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: migrate          # ← explicit stage
+      target: migrate
     container_name: zapier_clone_migrate
     command: npx drizzle-kit migrate
     environment:
       DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,13 +55,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime          # ← explicit stage
+      target: runtime
     container_name: zapier_clone_api
     command: npm run start:api
     ports:
       - "3000:3000"
     environment:
       DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone?sslmode=disable
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone?sslmode=disable
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
       PORT: 3000
     depends_on:
@@ -82,6 +82,7 @@ services:
     command: npm run start:worker
     environment:
       DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     depends_on:
       postgres:
@@ -93,4 +94,5 @@ services:
 
 volumes:
   postgres_data:
+  postgres_test_data:
   rabbitmq_data:

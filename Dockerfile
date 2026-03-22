@@ -1,4 +1,4 @@
-FROM node:22-slim AS builder
+FROM node:22-slim AS builder 
 
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -7,8 +7,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm ci
+
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci --no-optional   
 COPY . .
 RUN npm run build
 RUN npm prune --production
@@ -33,8 +35,8 @@ RUN apt-get update && apt-get install -y \
     make \
     g++ \
     && rm -rf /var/lib/apt/lists/*
-
-COPY package*.json ./
-RUN npm ci                          
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci --no-optional                        
 COPY . .
 # drizzle-kit needs the source config + full node_modules, not dist

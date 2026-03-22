@@ -16,8 +16,6 @@ export default class AuthenticationMiddleware {
   ): Promise<void> => {
     try {
       const token = req.header("Authorization")?.replace("Bearer ", "");
-      console.log("token", token);
-
       if (!token) {
         throw new UnauthorizedError("Unauthorized access");
       }
