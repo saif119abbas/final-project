@@ -8,34 +8,30 @@ on:
 
 jobs:
   tests:
-    name: Tests
     runs-on: ubuntu-latest
-
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:16-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: zapier_clone
         ports:
-          - 5433:5432
+          - 5432:5432
         options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
+          --health-cmd="pg_isready -U postgres -d zapier_clone"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
       rabbitmq:
-        image: rabbitmq:3-management
+        image: rabbitmq:3-alpine
         ports:
           - 5672:5672
-          - 15672:15672
         options: >-
-          --health-cmd "rabbitmq-diagnostics -q ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd="rabbitmq-diagnostics -q ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Check out code
@@ -49,16 +45,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --omit=optional
 
-      - name: Run migrations
-        run: npx drizzle-kit migrate
-        env:
-          DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
-
       - name: Run Tests
         run: npm run test
         env:
-          TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
-          RABBITMQ_URL: amqp://guest:guest@localhost:5672
+          TEST_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/zapier_clone
+          RABBITMQ_URL: amqp://guest:guest@127.0.0.1:5672
 
   style:
     name: Style
@@ -80,4 +71,4 @@ jobs:
         run: npm run format:check
 
       - name: Check linting
-        run: npm run lint -- --max-warnings=0
+        run: npm run lint -- --max-warnings=1

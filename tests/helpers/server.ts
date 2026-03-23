@@ -1,30 +1,24 @@
-import type { AddressInfo } from "net";
-import type { Server } from "http";
-import createApp from "../../src/main/app";
+import { startApiServer, type StartedApi } from "../../src/main/api";
 
 export function createTestServer() {
-  const app = createApp({
-    jobPublisher: { publishJob: async () => {} },
-  });
-
   let baseUrl = "";
-  let server: Server;
+  let started: StartedApi | null = null;
 
   return {
     get baseUrl() {
       return baseUrl;
     },
     async start() {
-      await new Promise<void>((resolve) => {
-        server = app.listen(0, () => resolve()); // ← wait for listen to complete
-        const { port } = server.address() as AddressInfo;
-        baseUrl = `http://127.0.0.1:${port}`;
+      started = await startApiServer({
+        port: 0,
+        connectRabbit: false,
+        jobPublisher: { publishJob: async () => {} },
       });
+      baseUrl = started.baseUrl;
     },
     async stop() {
-      await new Promise<void>((resolve, reject) => {
-        server.close((err) => (err ? reject(err) : resolve()));
-      });
+      if (!started) return;
+      await started.stop();
     },
   };
 }
