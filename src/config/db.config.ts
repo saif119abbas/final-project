@@ -28,4 +28,6 @@ const config: DBConfig = {
   dbUser,
 };
 
+console.log("config..", config);
+
 export default config;
