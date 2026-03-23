@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--target', 'runtime', '-t', 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/api:latest', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--target', 'runtime', '-t', 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/worker:latest', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--target', 'migrate', '-t', 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/migrate:latest', '.']
+
+images:
+  - 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/api:latest'
+  - 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/worker:latest'
+  - 'us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/migrate:latest'

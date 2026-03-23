@@ -64,7 +64,6 @@
       DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone?sslmode=disable
       TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone?sslmode=disable
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
-      PORT: 3000
     depends_on:
       postgres:
         condition: service_healthy
