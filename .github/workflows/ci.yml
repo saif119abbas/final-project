@@ -24,6 +24,9 @@ jobs:
 
       - name: Run Tests
         run: npm run test
+        env:
+          TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
+          RABBITMQ_URL: amqp://guest:guest@localhost:5672
 
   style:
     name: Style
