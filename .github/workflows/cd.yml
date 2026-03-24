@@ -55,8 +55,7 @@ jobs:
             --max-instances=10 \
             --min-instances=1 \
             --service-account=api-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com \
-            --set-env-vars=CLOUD_SQL_CONNECTION_NAME=authentic-wharf-489916-k2:us-central1:zapier-clone-instance,DB_NAME=zapier_clone,DB_USER=postgres \
-            --update-secrets=DB_URL=DB_URL:latest,DB_PASSWORD=DB_PASSWORD:latest,RABBITMQ_URL=RABBITMQ_URL:latest
+            --set-env-vars=CLOUD_SQL_CONNECTION_NAME=authentic-wharf-489916-k2:us-central1:zapier-clone-instance,DB_NAME=zapier_clone,DB_USER=postgres
 
       - name: Deploy Worker to Cloud Run
         run: |
@@ -67,6 +66,4 @@ jobs:
             --no-allow-unauthenticated \
             --max-instances=5 \
             --min-instances=1 \
-            --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com \
-            --set-env-vars=CLOUD_SQL_CONNECTION_NAME=authentic-wharf-489916-k2:us-central1:zapier-clone-instance,DB_NAME=zapier_clone,DB_USER=postgres \
-            --update-secrets=DB_URL=DB_URL:latest,DB_PASSWORD=DB_PASSWORD:latest,RABBITMQ_URL=RABBITMQ_URL:latest
+            --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
