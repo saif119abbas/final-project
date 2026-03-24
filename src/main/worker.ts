@@ -13,8 +13,18 @@ import JobRepository from "@infrastructure/repositories/jobs.repository";
 import JobAttemptRepository from "@infrastructure/repositories/jobAttempt.repository";
 import SubscriberRepository from "@infrastructure/repositories/subscripers.repository";
 import DeliveryService from "@application/handlers/deliverToSubscribers";
+import http, { IncomingMessage, ServerResponse } from "http";
 
 async function main() {
+  const port = Number(process.env.PORT ?? "8080");
+  http
+    .createServer((_: IncomingMessage, res: ServerResponse) => {
+      res.writeHead(200);
+      res.end("ok");
+    })
+    .listen(port, () => {
+      console.log(`Worker health check listening on :${port}`);
+    });
   const connection = await amqp.connect(rabbitMqConfig.url);
 
   const [ch, queue] = await declareAndBind(
