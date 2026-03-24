@@ -43,6 +43,7 @@ jobs:
           gcloud run jobs execute migrate \
             --region us-central1 \
             --project authentic-wharf-489916-k2 \
+            --add-cloudsql-instances=authentic-wharf-489916-k2:us-central1:zapier-clone-instance \
             --wait
 
       - name: Deploy API to Cloud Run
@@ -54,7 +55,10 @@ jobs:
             --allow-unauthenticated \
             --max-instances=10 \
             --min-instances=1 \
-            --service-account=api-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
+            --service-account=api-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com \
+            --add-cloudsql-instances=authentic-wharf-489916-k2:us-central1:zapier-clone-instance \
+            --set-env-vars=CLOUD_SQL_CONNECTION_NAME=authentic-wharf-489916-k2:us-central1:zapier-clone-instance,DB_NAME=zapier_clone,DB_USER=postgres \
+            --update-secrets=DB_URL=DB_URL:latest,DB_PASSWORD=DB_PASSWORD:latest,RABBITMQ_URL=RABBITMQ_URL:latest
 
       - name: Deploy Worker to Cloud Run
         run: |
@@ -65,5 +69,7 @@ jobs:
             --no-allow-unauthenticated \
             --max-instances=5 \
             --min-instances=1 \
-            --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
-
+            --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com \
+            --add-cloudsql-instances=authentic-wharf-489916-k2:us-central1:zapier-clone-instance \
+            --set-env-vars=CLOUD_SQL_CONNECTION_NAME=authentic-wharf-489916-k2:us-central1:zapier-clone-instance,DB_NAME=zapier_clone,DB_USER=postgres \
+            --update-secrets=DB_URL=DB_URL:latest,DB_PASSWORD=DB_PASSWORD:latest,RABBITMQ_URL=RABBITMQ_URL:latest
