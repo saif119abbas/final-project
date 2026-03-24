@@ -1,3 +1,5 @@
 node_modules
 .env
 authentic-final-project.json
+.npm-cache
+./generate-secret.ts

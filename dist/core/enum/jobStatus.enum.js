@@ -1,14 +1,11 @@
-import { pgEnum } from "drizzle-orm/pg-core";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var JobStatus;
 (function (JobStatus) {
     JobStatus["PENDING"] = "PENDING";
     JobStatus["SUCCESS"] = "SUCCESS";
+    JobStatus["PARTIAL"] = "PARTIAL";
     JobStatus["FAILED"] = "FAILED";
+    JobStatus["PROCESSING"] = "PROCESSING";
 })(JobStatus || (JobStatus = {}));
-const jobStatusObj = {
-    [JobStatus.PENDING]: JobStatus.PENDING,
-    [JobStatus.SUCCESS]: JobStatus.SUCCESS,
-    [JobStatus.FAILED]: JobStatus.FAILED,
-};
-const jobStatusEnum = pgEnum("job_status", jobStatusObj);
-export { JobStatus, jobStatusEnum };
+exports.default = JobStatus;

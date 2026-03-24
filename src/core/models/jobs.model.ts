@@ -1,11 +1,32 @@
-import { pgTable, timestamp, text, uuid } from "drizzle-orm/pg-core";
-import { pipelines } from "./index";
-import { JobStatus, jobStatusEnum } from "@core/enum/jobStatus.enum";
-export const jobs = pgTable("jobs", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  pipeline_id: uuid("pipeline_id").references(() => pipelines.id),
-  payload: text("payload").notNull(),
-  status: jobStatusEnum("status").default(JobStatus.PENDING),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
-});
+import { AutoMap } from "@automapper/classes";
+import { Payload } from "@core/dto/jobs/jobRequest.dto";
+import JobStatus from "@core/enum/jobStatus.enum";
+
+export default class Job {
+  @AutoMap()
+  id!: string;
+
+  @AutoMap()
+  pipelineId!: string | null; // match DB nullable
+
+  @AutoMap()
+  payload!: Payload;
+
+  @AutoMap()
+  status!: JobStatus | null; // match DB nullable
+
+  @AutoMap()
+  result!: unknown | null; // add result
+
+  @AutoMap()
+  error!: string | null; // add error
+
+  @AutoMap()
+  scheduledFor!: Date | null; // match DB nullable
+
+  @AutoMap()
+  createdAt!: Date | null;
+
+  @AutoMap()
+  updatedAt!: Date | null;
+}

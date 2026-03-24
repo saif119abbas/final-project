@@ -1,0 +1,21 @@
+import SimpleQueueType from "@core/enum/simpleQueueType.enum";
+import type { Channel, ChannelModel, Replies, Options } from "amqplib";
+
+export async function declareAndBind(
+  conn: ChannelModel,
+  exchange: string,
+  queueName: string,
+  key: string,
+  queueType: SimpleQueueType,
+): Promise<[Channel, Replies.AssertQueue]> {
+  const channel = await conn.createChannel();
+  await channel.assertExchange(exchange, "direct", { durable: true });
+  const options: Options.AssertQueue = {
+    durable: queueType === SimpleQueueType.Durable,
+    autoDelete: queueType === SimpleQueueType.Transient,
+    exclusive: queueType === SimpleQueueType.Transient,
+  };
+  const queue = await channel.assertQueue(queueName, options);
+  await channel.bindQueue(queue.queue, exchange, key);
+  return [channel, queue];
+}

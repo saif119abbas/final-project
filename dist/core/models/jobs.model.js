@@ -1,11 +1,51 @@
-import { pgTable, timestamp, text, uuid } from "drizzle-orm/pg-core";
-import { pipelines } from "./index";
-import { JobStatus, jobStatusEnum } from "@core/enum/jobStatus.enum";
-export const jobs = pgTable("jobs", {
-    id: uuid("id").primaryKey().defaultRandom(),
-    pipeline_id: uuid("pipeline_id").references(() => pipelines.id),
-    payload: text("payload").notNull(),
-    status: jobStatusEnum("status").default(JobStatus.PENDING),
-    created_at: timestamp("created_at").defaultNow(),
-    updated_at: timestamp("updated_at").defaultNow(),
-});
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const classes_1 = require("@automapper/classes");
+class Job {
+}
+exports.default = Job;
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", String)
+], Job.prototype, "id", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "pipelineId", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "payload", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "status", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "result", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "error", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "scheduledFor", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "createdAt", void 0);
+__decorate([
+    (0, classes_1.AutoMap)(),
+    __metadata("design:type", Object)
+], Job.prototype, "updatedAt", void 0);

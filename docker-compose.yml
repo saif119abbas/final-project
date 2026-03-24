@@ -1,0 +1,97 @@
+﻿services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: zapier_clone_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: zapier_clone
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrate
+    container_name: zapier_clone_migrate
+    command: npx drizzle-kit migrate
+    environment:
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src/infrastructure/db/migrations:/usr/src/app/src/infrastructure/db/migrations
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: zapier_clone_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: zapier_clone_api
+    command: npm run start:api
+    ports:
+      - "3000:3000"
+    environment:
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone?sslmode=disable
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone?sslmode=disable
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully  # ← wait for migrations
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime          # ← explicit stage
+    container_name: zapier_clone_worker
+    command: npm run start:worker
+    environment:
+      DB_URL: postgresql://postgres:postgres@postgres:5432/zapier_clone
+      TEST_DB_URL: postgresql://postgres:postgres@localhost:5433/zapier_clone
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully  # ← wait for migrations
+
+volumes:
+  postgres_data:
+  postgres_test_data:
+  rabbitmq_data:
