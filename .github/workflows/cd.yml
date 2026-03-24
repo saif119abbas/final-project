@@ -35,15 +35,35 @@ jobs:
       - name: Test gcloud
         run: gcloud info
 
-        
-      - name: Build Images
+      - name: Build and Push Images
         run: gcloud builds submit --config cloudbuild.yaml .
-      
-      - name: Deploy to Cloud Run
+
+      - name: Run Migrations
         run: |
-          gcloud run deploy notely \
-          --image us-central1-docker.pkg.dev/authentic-wharf-489916-k2/final-project-ar-repo/backend:latest \
-          --region us-central1 \
-          --allow-unauthenticated \
-          --project authentic-wharf-489916-k2 \
-          --max-instances=4
+          gcloud run jobs execute migrate \
+            --region us-central1 \
+            --project authentic-wharf-489916-k2 \
+            --wait
+
+      - name: Deploy API to Cloud Run
+        run: |
+          gcloud run deploy api \
+            --image us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/api:latest \
+            --region us-central1 \
+            --project authentic-wharf-489916-k2 \
+            --allow-unauthenticated \
+            --max-instances=10 \
+            --min-instances=1 \
+            --service-account=api-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
+
+      - name: Deploy Worker to Cloud Run
+        run: |
+          gcloud run deploy worker \
+            --image us-central1-docker.pkg.dev/authentic-wharf-489916-k2/zapier-clone-ar-repo/worker:latest \
+            --region us-central1 \
+            --project authentic-wharf-489916-k2 \
+            --no-allow-unauthenticated \
+            --max-instances=5 \
+            --min-instances=1 \
+            --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
+
