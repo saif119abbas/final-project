@@ -24,7 +24,12 @@ COPY --from=builder /usr/src/app/package*.json ./
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 
 USER node
+
+FROM runtime AS runtime-api
 CMD ["node", "dist/main/api.js"]
+
+FROM runtime AS runtime-worker
+CMD ["node", "dist/main/worker.js"]
 
 # ── Migrate — keeps full node_modules so drizzle-kit is resolvable ──
 FROM node:22-slim AS migrate

@@ -16,7 +16,7 @@ import DeliveryService from "@application/handlers/deliverToSubscribers";
 import http, { IncomingMessage, ServerResponse } from "http";
 
 async function main() {
-  const port = Number(process.env.PORT ?? "8080");
+  const port = 8080;
   http
     .createServer((_: IncomingMessage, res: ServerResponse) => {
       res.writeHead(200);
