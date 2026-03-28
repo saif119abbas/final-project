@@ -6,6 +6,7 @@ const dbName = process.env.DB_NAME ?? "zapier_clone";
 const dbPassword = process.env.DB_PASSWORD!;
 const connectionName = process.env.CLOUD_SQL_CONNECTION_NAME!;
 const dbUser = process.env.DB_USER ?? "postgres";
+const dialect = process.env.DIALECT ?? "postgresql";
 const migrationConfig: MigrationConfig = {
   migrationsFolder: "./src/infrastructure/db/migrations",
 };
@@ -17,6 +18,7 @@ type DBConfig = {
   dbPassword: string;
   connectionName: string;
   dbUser: string;
+  dialect:string
 };
 const config: DBConfig = {
   migrationConfig,
@@ -26,6 +28,7 @@ const config: DBConfig = {
   dbPassword,
   connectionName,
   dbUser,
+  dialect
 };
 
 console.log("config..", config);
