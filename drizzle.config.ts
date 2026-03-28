@@ -6,7 +6,7 @@ export default defineConfig({
   schema: "./src/infrastructure/db/schema/*.ts",
   out: "src/infrastructure/db/migrations",
   dialect: "postgresql",
-  dbCredentials: config.isCloudRun
+  dbCredentials: /*config.isCloudRun
     ? {
         host: `/cloudsql/${config.connectionName}`,
         database:config.dbName,
@@ -14,5 +14,5 @@ export default defineConfig({
         password: config.dbPassword,
         ssl: false,
       }
-    : { url: config.url },
+    : */{ url: config.url },
 });
