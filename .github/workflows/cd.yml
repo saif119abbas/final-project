@@ -41,7 +41,7 @@ jobs:
         run: gcloud builds submit --config cloudbuild.yaml .
 
       - name: Run Migrations
-        run: npm run db:migrate
+        run: npm run migrate
         #run: |
          # gcloud run jobs execute migrate \
            # --region us-central1 \
