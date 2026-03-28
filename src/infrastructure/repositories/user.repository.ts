@@ -14,6 +14,9 @@ export default class UserRepository
   }
 
   async findByEmail(email: string): Promise<User | null> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     // Fetch the user
     const [result] = await db
       .select()

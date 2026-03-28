@@ -14,6 +14,9 @@ export default class RefreshTokenRepository
   }
 
   async findByUserId(userId: string): Promise<RefreshToken | null> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const [result] = await db
       .select()
       .from(refreshTokens)
@@ -31,6 +34,9 @@ export default class RefreshTokenRepository
   }
 
   async revokedToken(token: string): Promise<boolean> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const result = await db
       .update(refreshTokens)
       .set({
@@ -45,6 +51,9 @@ export default class RefreshTokenRepository
   }
 
   async revokedUserTokens(userId: string): Promise<boolean> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const result = await db
       .update(refreshTokens)
       .set({

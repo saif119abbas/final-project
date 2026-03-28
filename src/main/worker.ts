@@ -1,5 +1,5 @@
-﻿import "dotenv/config";
-import amqp from "amqplib";
+import "dotenv/config";
+import { connectWithRetry } from "@infrastructure/rabbitmq/connection";
 import { declareAndBind } from "@infrastructure/rabbitmq/queueBinding";
 import { declareDeliveryTopology } from "@infrastructure/rabbitmq/declareDeliveryTopology";
 import { startDeliveryConsumer } from "@infrastructure/rabbitmq/deliveryConsumer";
@@ -7,7 +7,6 @@ import { Exchanges, Queues, RoutingKeys } from "@core/enum";
 import jobHandler from "@application/handlers/jobHandler";
 import JobMessage from "@core/dto/rabbitmq/jobMessaage";
 import AckType from "@core/enum/ackType.enum";
-import rabbitMqConfig from "@config/rabittmq.config";
 import SimpleQueueType from "@core/enum/simpleQueueType.enum";
 import JobRepository from "@infrastructure/repositories/jobs.repository";
 import JobAttemptRepository from "@infrastructure/repositories/jobAttempt.repository";
@@ -25,7 +24,7 @@ async function main() {
     .listen(port, () => {
       console.log(`Worker health check listening on :${port}`);
     });
-  const connection = await amqp.connect(rabbitMqConfig.url);
+  const connection = await connectWithRetry();
 
   const [ch, queue] = await declareAndBind(
     connection,
