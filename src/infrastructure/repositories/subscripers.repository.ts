@@ -14,6 +14,9 @@ export default class SubscriberRepository
   }
 
   async findByPipelineId(pipelineId: string): Promise<Subscriber[]> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const results = await db
       .select()
       .from(subscribers)

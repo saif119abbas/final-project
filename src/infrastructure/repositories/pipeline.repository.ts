@@ -14,6 +14,9 @@ export default class PipelineRepository
   }
 
   async findBySourcePath(sourcePath: string) {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const [result] = await db
       .select()
       .from(pipelines)

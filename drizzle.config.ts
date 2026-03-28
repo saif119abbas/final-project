@@ -5,7 +5,7 @@ import config from "./src/config/db.config";
 export default defineConfig({
   schema: "./src/infrastructure/db/schema/*.ts",
   out: "src/infrastructure/db/migrations",
-  dialect: "postgresql",
+  dialect:process.env.NODE_ENV==="production" ?"turso": "postgresql",
   dbCredentials: /*config.isCloudRun
     ? {
         host: `/cloudsql/${config.connectionName}`,

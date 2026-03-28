@@ -1,8 +1,8 @@
 import { Exchanges, Queues, RoutingKeys } from "@core/enum";
 import { JobPublisher } from "@core/interfaces/queues/jobPublisher";
-import rabbitMqConfig from "@config/rabittmq.config";
+import { connectWithRetry } from "@infrastructure/rabbitmq/connection";
 import { declareAndBind } from "@infrastructure/rabbitmq/queueBinding";
-import amqp, { ConfirmChannel } from "amqplib";
+import type { ChannelModel, ConfirmChannel } from "amqplib";
 import "dotenv/config";
 import { Server } from "http";
 import type { AddressInfo } from "net";
@@ -27,11 +27,11 @@ export async function startApiServer(
   options: StartApiOptions = {},
 ): Promise<StartedApi> {
   const connectRabbit = options.connectRabbit ?? true;
-  let connection: amqp.ChannelModel;
+  let connection: ChannelModel | undefined;
   let channel = options.channel;
 
   if (connectRabbit) {
-    connection = await amqp.connect(rabbitMqConfig.url);
+    connection = await connectWithRetry();
     channel = await connection.createConfirmChannel();
     await declareAndBind(
       connection,
