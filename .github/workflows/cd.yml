@@ -8,6 +8,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DB_URL }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -39,11 +41,12 @@ jobs:
         run: gcloud builds submit --config cloudbuild.yaml .
 
       - name: Run Migrations
-        run: |
-          gcloud run jobs execute migrate \
-            --region us-central1 \
-            --project authentic-wharf-489916-k2 \
-            --wait
+        run: npm run db:migrate
+        #run: |
+         # gcloud run jobs execute migrate \
+           # --region us-central1 \
+           # --project authentic-wharf-489916-k2 \
+            #--wait
 
       - name: Deploy API to Cloud Run
         run: |
