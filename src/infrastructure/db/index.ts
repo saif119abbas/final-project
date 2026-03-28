@@ -2,8 +2,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema/index";
 import config from "@config/db.config";
-const conn =  postgres(config.url);
-
+const conn = postgres(config.url);
 
 /*config.isCloudRun
   ? postgres({
@@ -13,6 +12,5 @@ const conn =  postgres(config.url);
       password: process.env.DB_PASSWORD,
       ssl: false,
     })*/
-  
 
 export const db = drizzle(conn, { schema });
