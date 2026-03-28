@@ -1,8 +1,9 @@
-import { db } from "@infrastructure/db/index";
+import { db, assertDbConnection } from "@infrastructure/db/index";
 import { eq, sql } from "drizzle-orm";
 import { AnyPgTable, PgColumn, PgTable } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import IRepository from "@core/repositories/repository";
+import { id } from "zod/v4/locales";
 
 type WithId = { id: PgColumn };
 
@@ -18,11 +19,17 @@ export default class Repository<
   async create(
     entity: InferInsertModel<TTable>,
   ): Promise<InferSelectModel<TTable>> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const [result] = await db.insert(this.table).values(entity).returning();
     return result as InferSelectModel<TTable>;
   }
 
   async findById(id: string): Promise<InferSelectModel<TTable> | null> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const [result] = await db
       .select()
       .from(this.table as PgTable)
@@ -36,6 +43,9 @@ export default class Repository<
     page: number,
     limit: number,
   ): Promise<{ data: InferSelectModel<TTable>[]; total: number }> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const offset = (page - 1) * limit;
     const [{ count }] = await db
       .select({ count: sql<number>`count(*)`.mapWith(Number) })
@@ -53,6 +63,9 @@ export default class Repository<
     id: string,
     entity: Partial<InferInsertModel<TTable>>,
   ): Promise<InferSelectModel<TTable>> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     const [result] = await db
       .update(this.table)
       .set(entity)
@@ -62,6 +75,9 @@ export default class Repository<
   }
 
   async delete(id: string): Promise<void> {
+    if (!db) {
+      throw new Error("Database connection is not available");
+    }
     await db.delete(this.table).where(eq(this.table.id, id));
   }
 }
