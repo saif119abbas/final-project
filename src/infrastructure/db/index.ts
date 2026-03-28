@@ -1,8 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import * as schema from "./schema/index";
 import config from "@config/db.config";
-const conn = postgres(config.url);
+/*const conn = postgres(config.url);
 
 /*config.isCloudRun
   ? postgres({
@@ -12,5 +11,26 @@ const conn = postgres(config.url);
       password: process.env.DB_PASSWORD,
       ssl: false,
     })*/
+let conn = undefined;
 
-export const db = drizzle(conn, { schema });
+if (config.url) {
+  conn = drizzle({
+    connection: {
+      url: config.url,
+    },
+    schema: schema,
+  });
+  console.log("Connected to database!");
+} else {
+  console.log("DATABASE_URL environment variable is not set");
+  console.log("Running without CRUD endpoints");
+}
+
+export const db = conn;
+export function assertDbConnection() {
+  if (!db) {
+    throw new Error("Database connection is not available");
+  }
+}
+
+//export const db = drizzle(conn, { schema });
