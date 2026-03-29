@@ -41,12 +41,12 @@ jobs:
         run: gcloud builds submit --config cloudbuild.yaml .
 
       - name: Run Migrations
-        #run: npm run migrate
-        run: |
-          gcloud run jobs execute migrate \
-            --region us-central1 \
-           --project authentic-wharf-489916-k2 \
-            --wait
+        run: npm run migrate
+        #run: |
+         # gcloud run jobs execute migrate \
+          #  --region us-central1 \
+           #--project authentic-wharf-489916-k2 \
+            #--wait
 
       - name: Deploy API to Cloud Run
         run: |
