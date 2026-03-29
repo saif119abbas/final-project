@@ -97,7 +97,6 @@ jobs:
             --allow-unauthenticated \
             --min-instances=1 \
             --max-instances=10 \
-            --set-env-vars DB_URL="${{ secrets.DB_URL }}" \
             --service-account=api-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com
 
       ############################################
@@ -113,5 +112,4 @@ jobs:
             --no-allow-unauthenticated \
             --min-instances=1 \
             --max-instances=5 \
-            --set-env-vars DB_URL="${{ secrets.DB_URL }}" \
             --service-account=worker-sa@authentic-wharf-489916-k2.iam.gserviceaccount.com

@@ -1,7 +1,7 @@
 ﻿import type { MigrationConfig } from "drizzle-orm/migrator";
 
 const url = process.env.DATABASE_URL || process.env.DB_URL || "";
-const isCloudRun = process.env.NODE_ENV==="production";
+const isCloudRun = process.env.NODE_ENV === "production";
 const dbName = process.env.DB_NAME ?? "zapier_clone";
 const dbPassword = process.env.DB_PASSWORD;
 const connectionName = process.env.CLOUD_SQL_CONNECTION_NAME;
