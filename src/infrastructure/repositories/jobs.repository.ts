@@ -20,9 +20,6 @@ export default class JobRepository
   }
 
   async getJobDetails(jobId: string): Promise<JobDetailsResult | null> {
-    if (!db) {
-      throw new Error("Database connection is not available");
-    }
     const [row] = await db
       .select({
         job: jobs,
@@ -77,9 +74,6 @@ export default class JobRepository
   }
 
   async getAttemptDetails(jobId: string): Promise<JobAttemptsResponse[]> {
-    if (!db) {
-      throw new Error("Database connection is not available");
-    }
     const rows = await db
       .select({
         jobId: jobs.id,
@@ -110,9 +104,6 @@ export default class JobRepository
     page: number,
     limit: number,
   ): Promise<{ data: JobResponse[]; total: number }> {
-    if (!db) {
-      throw new Error("Database connection is not available");
-    }
     const offset = (page - 1) * limit;
     const data = await db
       .select({
