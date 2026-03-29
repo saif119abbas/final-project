@@ -5,6 +5,8 @@ Build a simplified Zapier-style service that ingests webhooks, processes them as
 ## Table of Contents
 - [Overview](#overview)
 - [Quick Start](#quick-start)
+- [Testing](#testing)
+- [API Testing](#api-testing)
 - [Architecture](#architecture)
 - [Processing Actions](#processing-actions)
 - [Database Schema](#database-schema)
@@ -19,10 +21,16 @@ This service lets users create **pipelines** that connect:
 3. One or more **subscriber** destination URLs
 
 Incoming webhooks are queued and processed by a background worker. Results are then delivered to each subscriber with retry logic.
+Production uses **Supabase Postgres** as the managed database. Local development uses the Postgres container in `docker-compose.yml`.
 
 ## Quick Start
 Prerequisites:
 - Docker + Docker Compose
+
+Install dependencies:
+```bash
+npm i
+```
 
 Run everything with Docker:
 ```bash
@@ -36,6 +44,26 @@ Services started:
 - Postgres: `localhost:5433`
 
 Environment variables are loaded from `.env` in the project root. The `docker-compose.yml` file also provides defaults for local development.
+
+## Testing
+After Docker is running and the services are healthy:
+```bash
+npm run test
+```
+
+## API Testing
+Suggested options for testing:
+- Use the local API at `http://localhost:3000`.
+- Postman collection (add your link here): `REPLACE_WITH_POSTMAN_COLLECTION_LINK`
+
+Postman environment variables:
+- Local
+`base_url: http://localhost:3000/api`
+`base_webhook: http://localhost:3000`
+`accessToken: <token from login or refresh-token response>`
+- Live
+`base_url: https://api-816184554504.us-central1.run.app/api`
+`base_webhook: https://api-816184554504.us-central1.run.app`
 
 ## Architecture
 High-level flow:
