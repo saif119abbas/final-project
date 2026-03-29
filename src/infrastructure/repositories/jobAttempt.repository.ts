@@ -13,9 +13,6 @@ export default class JobAttemptRepository
     super(jobAttempts);
   }
   async findDueForRetry(): Promise<JobAttempt[]> {
-    if (!db) {
-      throw new Error("Database connection is not available");
-    }
     return db
       .select()
       .from(jobAttempts)
@@ -28,9 +25,6 @@ export default class JobAttemptRepository
       );
   }
   async findByJobId(jobId: string): Promise<JobAttempt[]> {
-    if (!db) {
-      throw new Error("Database connection is not available");
-    }
     const result = await db
       .select()
       .from(jobAttempts)
